@@ -2,15 +2,41 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
+import dts from 'vite-plugin-dts';
+import * as path from 'path';
 
 export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../node_modules/.vite/ui-components',
-  plugins: [react(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
+  plugins: [
+    react(), 
+    nxViteTsPaths(), 
+    nxCopyAssetsPlugin(['*.md']),
+    dts({
+      entryRoot: 'src',
+      tsconfigPath: path.join(__dirname, 'tsconfig.lib.json'),
+      // skipDiagnostics: true,
+    }),
+  ],
   // Uncomment this if you are using workers.
   // worker: {
   //  plugins: [ nxViteTsPaths() ],
   // },
+  build: {
+    lib: {
+      entry: 'src/index.ts',
+      name: 'ui-components',
+      fileName: 'index',
+      // formats: ['es', 'cjs'],
+    },
+    rollupOptions: {
+      // Externalize deps that shouldn't be bundled into your library.
+      external: ['react', 'react-dom', 'react/jsx-runtime'],
+    },
+    reportCompressedSize: true,
+    target: 'esnext',
+    outDir: '../../dist/ui-components',
+  },
   test: {
     name: 'ui-components',
     watch: false,

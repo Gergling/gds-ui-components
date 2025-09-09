@@ -25,4 +25,3 @@ export const Pane: React.FC<PaneProps> = ({ children }) => {
   return <StyledPane>{children}</StyledPane>;
 };
 
-export default Pane;

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Pane } from './pane';
+import { Pane } from './Pane.component';
 
 const meta: Meta<typeof Pane> = {
   component: Pane,
