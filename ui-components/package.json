@@ -1,0 +1,28 @@
+{
+  "name": "@gergling/ui-components",
+  "version": "0.0.1",
+  "private": false,
+  "type": "module",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./index.es.js",
+      "require": "./index.js"
+    }
+  },
+  "scripts": {
+    "test": "vitest --run"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^7.3.2",
+    "react": "19.1.1",
+    "react-dom": "19.1.1"
+  },
+  "devDependencies": {
+    "@storybook/react": "9.1.5"
+  }
+}

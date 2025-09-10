@@ -11,7 +11,9 @@
       "options": {
         "outputPath": "dist/ui-components",
         "entryFile": "src/index.ts",
-        "generatePackageJson": true
+        "assets": [
+          "ui-components/package.json"
+        ]
       }
     },
     "test": {

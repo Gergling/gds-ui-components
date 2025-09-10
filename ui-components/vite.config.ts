@@ -31,7 +31,13 @@ export default defineConfig(() => ({
     },
     rollupOptions: {
       // Externalize deps that shouldn't be bundled into your library.
-      external: ['react', 'react-dom', 'react/jsx-runtime'],
+      external: [
+        '@emotion/react',
+        '@emotion/styled',
+        'react',
+        'react-dom',
+        'react/jsx-runtime',
+      ],
     },
     reportCompressedSize: true,
     target: 'esnext',
