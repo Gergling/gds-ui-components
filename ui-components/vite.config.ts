@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig, LibraryFormats } from 'vite';
 import react from '@vitejs/plugin-react';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
@@ -27,7 +27,7 @@ export default defineConfig(() => ({
       entry: 'src/index.ts',
       name: 'ui-components',
       fileName: 'index',
-      // formats: ['es', 'cjs'],
+      formats: ['es', 'cjs'] as LibraryFormats[],
     },
     rollupOptions: {
       // Externalize deps that shouldn't be bundled into your library.
