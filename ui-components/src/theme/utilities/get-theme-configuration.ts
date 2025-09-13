@@ -1,6 +1,6 @@
 import { createTheme, Theme } from "@mui/material";
 import { DeepPartial, SemanticColorGroup, SemanticColors, ThemeExtension } from "../types";
-import { SEMANTIC_NAMES_MESSAGE } from "../constants";
+import { SEMANTIC_NAMES_MESSAGE, SEMANTIC_NAMES_SYSTEM } from "../constants";
 
 type WrapperArgs = Parameters<typeof createTheme>[0] & DeepPartial<ThemeExtension>;
 
@@ -36,12 +36,14 @@ export const getThemeConfiguration = (
 ): Theme => {
   const initialPalette = createTheme().palette;
   const colors = {
-    ...SEMANTIC_NAMES_MESSAGE.reduce(
+    ...[...SEMANTIC_NAMES_MESSAGE, ...SEMANTIC_NAMES_SYSTEM].reduce(
       (
         colors,
         semanticName
       ) => {
-        const { contrastText, main } = initialPalette[semanticName];
+        const { contrastText, main } = semanticName === 'tertiary'
+          ? { contrastText: 'black', main: 'white' }
+          : initialPalette[semanticName];
         return {
           ...colors,
           [semanticName]: { main, on: contrastText, container: {
