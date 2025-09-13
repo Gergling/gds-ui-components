@@ -18,5 +18,8 @@
       "ui-components": ["ui-components/src/index.ts"]
     }
   },
+  "include": [
+    "ui-components/src/theme/declarations.d.ts"
+  ],
   "exclude": ["node_modules", "tmp"]
 }

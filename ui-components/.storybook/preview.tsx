@@ -1,7 +1,5 @@
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Preview } from '@storybook/react';
-
-const theme = createTheme();
+import { AppThemeProvider, ThemeSwitcher } from '../src/theme';
 
 const preview: Preview = {
   parameters: {
@@ -9,9 +7,10 @@ const preview: Preview = {
   },
   decorators: [
     (Story) => (
-      <ThemeProvider theme={theme}>
+      <AppThemeProvider>
+        <ThemeSwitcher />
         <Story />
-      </ThemeProvider>
+      </AppThemeProvider>
     ),
   ],
 };

@@ -4,4 +4,5 @@
 export const baseColors = {
   daisybush006: '#59288a',
   earlydawn094: '#fcf9e8',
+  yellowmetal012: '#6b612e',
 };
