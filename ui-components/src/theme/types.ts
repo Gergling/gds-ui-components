@@ -14,7 +14,7 @@ export type DeepPartial<T> = T extends object ? {
 interface SemanticColor extends TonalContrast {
   container: TonalContrast;
 }
-type SemanticColorGroup =
+export type SemanticColorGroup =
   | typeof SEMANTIC_NAMES_MESSAGE[number]
   | typeof SEMANTIC_NAMES_SYSTEM[number];
 
