@@ -1,9 +1,10 @@
 import { useAppTheme } from '../../theme';
 import { useMemo } from 'react';
-import { ColorDetails, ColorName, ColorSwatch, ColorValue, StyledColorItem } from './Palette.style';
+import { ColorDetails, ColorName, ColorSwatch, ColorValue, StyledColorGrid, StyledColorItem } from './Palette.style';
 import { getColours } from '../utilities';
-import { Grid } from '@mui/material';
+import { Divider } from '@mui/material';
 import { DisplayColor } from '../types';
+import { HueTones } from './Tones.component';
 
 const ColorItem = ({ color, label }: DisplayColor) => (
   <StyledColorItem size={3}>
@@ -15,11 +16,11 @@ const ColorItem = ({ color, label }: DisplayColor) => (
   </StyledColorItem>
 );
 const ColorGrid = ({ colors }: { colors: DisplayColor[] }) => (
-  <Grid container spacing={2}>
+  <StyledColorGrid container spacing={2}>
     {colors.map(({ color, label }) => (
       <ColorItem color={color} label={label} key={label} />
     ))}
-  </Grid>
+  </StyledColorGrid>
 );
 
 export const ColorPalette = () => {
@@ -28,6 +29,8 @@ export const ColorPalette = () => {
 
   return (
     <>
+      <HueTones />
+      <Divider />
       <ColorGrid colors={colors.system} />
       <ColorGrid colors={colors.message} />
       <ColorGrid colors={colors.grey} />

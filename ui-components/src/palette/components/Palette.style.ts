@@ -1,6 +1,10 @@
 import styled from "@emotion/styled";
 import { Grid } from "@mui/material";
 
+export const StyledColorGrid = styled(Grid)`
+  padding: 1rem 0 0 0;
+`;
+
 export const StyledColorItem = styled(Grid)`
   border-radius: 8px;
   overflow: hidden;
