@@ -3,6 +3,15 @@ import { DisplayColor } from "./types";
 import { capitaliseFirstLetter } from "../common/utilities";
 import { SEMANTIC_NAMES_MESSAGE, SEMANTIC_NAMES_SYSTEM } from "../theme";
 
+export const toneBrightnessList = [
+  ...Array.from({ length: 9 }).map((_, i) => (i + 1) * 10),
+  95, 98, 99
+];
+
+const segments = 6;
+const size = 360 / segments;
+export const toneHueList = Array.from({ length: segments }).map((_, i) => i * size);
+
 const reduceColorsFactory = (
   theme: Theme
 ) => (
