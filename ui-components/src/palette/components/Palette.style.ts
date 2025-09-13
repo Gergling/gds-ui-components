@@ -1,17 +1,7 @@
 import styled from "@emotion/styled";
+import { Grid } from "@mui/material";
 
-// Find suitable MUI for grid.
-// Need 4 columns, so probably maximum width up to responsive breakpoint is a good choice.
-export const ColorGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 16px;
-  padding: 16px;
-`;
-
-export const ColorItem = styled.div`
-  display: flex;
-  flex-direction: column;
+export const StyledColorItem = styled(Grid)`
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
