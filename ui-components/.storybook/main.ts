@@ -1,4 +1,5 @@
 import type { StorybookConfig } from '@storybook/react-vite';
+import { InlineConfig, UserConfig } from 'vite';
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.@(mdx|stories.@(js|jsx|ts|tsx))'],
@@ -10,6 +11,19 @@ const config: StorybookConfig = {
         viteConfigPath: 'vite.config.ts',
       },
     },
+  },
+  async viteFinal(config) {
+    const { mergeConfig, searchForWorkspaceRoot } = await import('vite');
+    return mergeConfig<InlineConfig, UserConfig>(config, {
+      server: {
+        fs: {
+          allow: [
+            searchForWorkspaceRoot(process.cwd()),
+            '../node_modules/@fontsource-variable',
+          ],
+        },
+      },
+    });
   },
 };
 
