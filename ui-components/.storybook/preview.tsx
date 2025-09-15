@@ -1,5 +1,6 @@
 import { Preview } from '@storybook/react';
 import { AppThemeProvider, ThemeSwitcher } from '../src/theme';
+import { ErrorBoundary } from 'react-error-boundary';
 
 const preview: Preview = {
   parameters: {
@@ -8,8 +9,10 @@ const preview: Preview = {
   decorators: [
     (Story) => (
       <AppThemeProvider>
-        <ThemeSwitcher />
-        <Story />
+        <ErrorBoundary fallback={<div>Something bad has happened.</div>}>
+          <ThemeSwitcher />
+          <Story />
+        </ErrorBoundary>
       </AppThemeProvider>
     ),
   ],
