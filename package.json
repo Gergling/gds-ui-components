@@ -61,6 +61,7 @@
     "@emotion/styled": "^11.14.1",
     "@fontsource-variable/bodoni-moda-sc": "^5.2.9",
     "@fontsource-variable/raleway": "^5.2.7",
+    "@mui/icons-material": "^7.3.2",
     "@mui/material": "^7.3.2",
     "react": "19.1.1",
     "react-dom": "19.1.1",
