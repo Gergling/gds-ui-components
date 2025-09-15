@@ -1,7 +1,18 @@
 import { createTheme, Theme } from "@mui/material";
 import { zeroGDS, zeroGRX } from "../packages/zero";
-import { DESIGN_SYSTEM_MODES, DESIGN_SYSTEM_PROJECTS, DESIGN_SYSTEM_VERSIONS } from "../constants";
-import { DesignSystemThemes, ModeThemeName, ModeThemes, ProjectThemeName, ProjectThemes, VersionThemeName } from "../types";
+import {
+  DESIGN_SYSTEM_MODES,
+  DESIGN_SYSTEM_PROJECTS,
+  DESIGN_SYSTEM_VERSIONS
+} from "../constants";
+import {
+  DesignSystemThemes,
+  ModeThemeName,
+  ModeThemes,
+  ProjectThemeName,
+  ProjectThemes,
+  VersionThemeName
+} from "../types";
 
 const designSystem = DESIGN_SYSTEM_VERSIONS.reduce(
   (
@@ -19,21 +30,36 @@ const designSystem = DESIGN_SYSTEM_VERSIONS.reduce(
           (
             modeThemes,
             modeName,
-          ) => ({
-            ...modeThemes,
-            [modeName]: createTheme(),
-          }),
+          ) => {
+            const theme = designSystem[versionName]
+              && designSystem[versionName][projectName]
+              && designSystem[versionName][projectName][modeName];
+            return {
+              ...modeThemes,
+              [modeName]: theme || createTheme({
+                palette: {
+                  mode: modeName
+                },
+              }),
+            };
+          },
           {} as ModeThemes
         )
       }),
       {} as ProjectThemes
     )
   }),
-  {} as DesignSystemThemes
+  {
+    zero: {
+      gds: {
+        light: zeroGDS,
+      },
+      grx: {
+        light: zeroGRX,
+      }
+    }
+  } as DesignSystemThemes
 );
-
-designSystem.zero.gds.light = zeroGDS;
-designSystem.zero.grx.light = zeroGRX;
 
 export const getTheme = (
   version: VersionThemeName,

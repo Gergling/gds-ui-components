@@ -7,10 +7,9 @@ export const appThemeStore = create<AppTheme>((set, get) => {
     console.log('getProps', props, get());
     const { mode, project, version } = get();
     return {
-      mode,
-      project,
-      version,
-      ...props,
+      mode: props.mode || mode || 'light',
+      project: props.project || project,
+      version: props.version || version,
     };
   };
   const getPropsTheme = (props: SetThemeProps) => {
