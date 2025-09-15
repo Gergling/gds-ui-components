@@ -1,30 +1,28 @@
-import { ReactNode, useEffect } from "react";
-import { ThemeProvider, useColorScheme } from "@mui/material";
-import { appThemeStore } from "../utilities";
+import { ReactNode } from "react";
+import { ThemeProvider as MUIThemeProvider } from "@mui/material";
 import { AppThemeStoreContext } from "./app-theme.context";
+import { ThemeProvider as EmotionThemeProvider, Global } from "@emotion/react";
+import { useAppThemeProvider } from "./use-app-theme-provider";
 
 interface ThemeProviderProps {
   children: ReactNode;
 }
 
 export const AppThemeProvider = ({ children }: ThemeProviderProps) => {
-  const value = appThemeStore();
-  const { setTheme, theme } = value;
-  const { mode, systemMode } = useColorScheme();
-
-  useEffect(() => {
-    if (mode === 'system') {
-      setTheme({ mode: systemMode });
-    } else if (mode !== undefined) {
-      setTheme({ mode });
-    }
-  }, [mode, setTheme, systemMode]);
+  const {
+    globalStyles,
+    providerValue,
+    theme,
+  } = useAppThemeProvider();
 
   return (
-    <AppThemeStoreContext.Provider value={value}>
-      <ThemeProvider theme={theme}>
-        {children}
-      </ThemeProvider>
+    <AppThemeStoreContext.Provider value={providerValue}>
+      <MUIThemeProvider theme={theme}>
+        <EmotionThemeProvider theme={theme}>
+          <Global styles={globalStyles} />
+          {children}
+        </EmotionThemeProvider>
+      </MUIThemeProvider>
     </AppThemeStoreContext.Provider>
   );
 };
