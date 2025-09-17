@@ -13,18 +13,23 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v5
 
-      - name: Check if version has been updated
-        id: check
-        uses: EndBug/version-check@v2
+      # - name: Check if version has been updated
+      #   id: check
+      #   uses: EndBug/version-check@v2
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@v1.3.1
+        with:
+          path: ui-components
 
       - name: Create tag
         uses: actions/github-script@v5
-        if: steps.check.outputs.changed == 'true'
+        # if: steps.check.outputs.changed == 'true'
         with:
           script: |
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/${{ steps.check.outputs.version }}',
+              ref: 'refs/tags/${{ steps.package-version.outputs.current-version}}',
               sha: context.sha
             })
