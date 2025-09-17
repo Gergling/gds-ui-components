@@ -23,7 +23,7 @@ jobs:
           path: ui-components
 
       - name: Create tag
-        uses: actions/github-script@v5
+        uses: actions/github-script@v8
         # if: steps.check.outputs.changed == 'true'
         with:
           script: |
