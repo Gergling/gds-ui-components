@@ -34,4 +34,7 @@ jobs:
               repo: context.repo.repo,
               ref: 'refs/tags/${{ steps.package-version.outputs.current-version}}',
               sha: context.sha
+            }).catch(err => {
+              if (err.status !== 422) throw err;
+              console.log('Tag for version "${{ steps.package-version.outputs.current-version}}" already exists. Skipping tag creation.');
             })
