@@ -1,0 +1,30 @@
+name: 'Autotag'
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  autotag:
+    name: Tag if package.json version was changed
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Check if version has been updated
+        id: check
+        uses: EndBug/version-check@v2
+
+      - name: Create tag
+        uses: actions/github-script@v5
+        if: steps.check.outputs.changed == 'true'
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{ steps.check.outputs.version }}',
+              sha: context.sha
+            })
