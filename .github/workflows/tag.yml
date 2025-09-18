@@ -6,12 +6,11 @@ on:
       - main
 
 jobs:
-  autotag:
+  deploy:
     name: Tag with ui-components/package.json version
     runs-on: ubuntu-22.04
     permissions:
       contents: write
-      actions: write
     steps:
       - name: Check out repository
         uses: actions/checkout@v5
@@ -35,3 +34,15 @@ jobs:
               if (err.status !== 422) throw err;
               console.log('Tag for version "${{ steps.package-version.outputs.current-version}}" already exists. Skipping tag creation.');
             })
+
+      - name: Check package version
+        id: cpv
+        uses: PostHog/check-package-version@v2
+        with:
+          path: ui-components
+
+      - name: Echo output
+        run: |
+          echo "Committed version: ${{ steps.cpv.outputs.committed-version }}"
+          echo "Published version: ${{ steps.cpv.outputs.published-version }}"
+          echo "Is new version: ${{ steps.cpv.outputs.is-new-version }}"
