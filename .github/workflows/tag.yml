@@ -63,6 +63,9 @@ jobs:
           retries: 5
           retry-exempt-status-codes: 400,401,403,404,422
           result-encoding: json
+      - name: Echo versions
+        run: |
+          echo "tag-created: ${{ steps.create_tag.outputs.tag-created }}"
 
   publish:
     name: Publish to NPM
