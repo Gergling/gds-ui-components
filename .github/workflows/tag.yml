@@ -6,11 +6,13 @@ on:
       - main
 
 jobs:
-  deploy:
+  tag:
     name: Tag with ui-components/package.json version
     runs-on: ubuntu-22.04
     permissions:
       contents: write
+    outputs:
+      tag-created: ${{ steps.create_tag.outputs.tag-created }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v5
@@ -21,28 +23,78 @@ jobs:
         with:
           path: ui-components
 
+      # - name: Create tag
+      #   uses: actions/github-script@v8
+      #   with:
+      #     script: |
+      #       github.rest.git.createRef({
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         ref: 'refs/tags/v${{ steps.package-version.outputs.current-version}}',
+      #         sha: context.sha
+      #       }).catch(err => {
+      #         if (err.status !== 422) throw err;
+      #         console.log('Tag for version "${{ steps.package-version.outputs.current-version}}" already exists. Skipping tag creation.');
+      #       })
+
       - name: Create tag
+        id: create_tag
         uses: actions/github-script@v8
         with:
           script: |
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: 'refs/tags/v${{ steps.package-version.outputs.current-version}}',
-              sha: context.sha
-            }).catch(err => {
-              if (err.status !== 422) throw err;
-              console.log('Tag for version "${{ steps.package-version.outputs.current-version}}" already exists. Skipping tag creation.');
-            })
+            const tag = `v${{ steps.package-version.outputs.current-version}}`;
+            try {
+              await github.rest.git.createRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: `refs/tags/${tag}`,
+                sha: context.sha
+              });
+              console.log(`Tag ${tag} created successfully.`);
+              core.setOutput('tag-created', 'true');
+            } catch (err) {
+              if (err.status === 422) {
+                console.log(`Tag for version "${tag}" already exists. Skipping tag creation.`);
+                core.setOutput('tag-created', 'false');
+              } else {
+                throw err;
+              }
+            }
+          retries: 5
+          retry-exempt-status-codes: 400,401,403,404,422
+          result-encoding: json
+
+  publish:
+    name: Publish to NPM
+    runs-on: ubuntu-22.04
+    needs: tag
+    permissions:
+      contents: read
+      packages: write
+    if: needs.tag.outputs.tag-created == 'true'
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
 
       - name: Check package version
         id: cpv
         uses: PostHog/check-package-version@v2
         with:
           path: ui-components
+          
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
 
-      - name: Echo output
-        run: |
-          echo "Committed version: ${{ steps.cpv.outputs.committed-version }}"
-          echo "Published version: ${{ steps.cpv.outputs.published-version }}"
-          echo "Is new version: ${{ steps.cpv.outputs.is-new-version }}"
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the library
+        run: npx nx run ui-components:build
+
+      - name: Publish to npm
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
