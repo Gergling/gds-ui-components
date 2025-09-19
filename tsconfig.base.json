@@ -13,13 +13,7 @@
     "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "ui-components": ["ui-components/src/index.ts"]
-    }
+    "baseUrl": "."
   },
-  "include": [
-    "ui-components/src/theme/declarations.d.ts"
-  ],
   "exclude": ["node_modules", "tmp"]
 }

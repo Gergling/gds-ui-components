@@ -14,15 +14,28 @@
   "scripts": {
     "test": "vitest --run"
   },
-  "dependencies": {},
-  "peerDependencies": {
+  "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "react-error-boundary": "^6.0.0",
+    "react-router-dom": "6.29.0",
+    "zustand": "^5.0.8"
+  },
+  "peerDependencies": {
+    "@fontsource-variable/bodoni-moda-sc": "^5.2.9",
+    "@fontsource-variable/raleway": "^5.2.7",
+    "@mui/icons-material": "^7.3.2",
     "@mui/material": "^7.3.2",
     "react": "19.1.1",
     "react-dom": "19.1.1"
   },
   "devDependencies": {
-    "@storybook/react": "9.1.5"
+    "@fontsource-variable/bodoni-moda-sc": "^5.2.9",
+    "@fontsource-variable/raleway": "^5.2.7",
+    "@mui/icons-material": "^7.3.2",
+    "@mui/material": "^7.3.2",
+    "nx": "latest",
+    "react": "19.1.1",
+    "react-dom": "19.1.1"
   }
 }
