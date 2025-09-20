@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "build": "nx build ui-components --emptyOutDir",
+    "every-app": "nx serve every-app",
+    "storybook": "nx storybook ui-components",
     "test": "echo \"Error: no test specified\" && exit 1",
     "version": "npm version --workspace=ui-components --no-git-tag-version --no-commit"
   },
