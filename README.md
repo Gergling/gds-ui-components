@@ -13,12 +13,12 @@ This project is intended to build a complete design system for all of my persona
 ## Development Process 
 
 1. Storybook:
-  1. Implement components and theme in `src`.
-  2. `npm run storybook` or `nx storybook ui-components` to view.
+    1. Implement components and theme in `src`.
+    2. `npm run storybook` or `nx storybook ui-components` to view.
 2. Every App: When basic components are done.
-  1. `npm run build` will make a `ui-components` build.
-  2. `npm i` will install the latest locally-built `ui-components` package.
-  3. Implement components in `src` for testing purposes.
+    1. `npm run build` will make a `ui-components` build.
+    2. `npm i` will install the latest locally-built `ui-components` package.
+    3. Implement components in `src` for testing purposes.
 
 ## Theme Type Extension
 
