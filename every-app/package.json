@@ -7,7 +7,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@gergling/ui-components": "workspace:*",
+    "@gergling/ui-components": "file:../dist/ui-components",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "react": "^19.1.1",
