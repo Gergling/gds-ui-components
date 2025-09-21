@@ -1,14 +1,22 @@
 {
   "name": "gds-gergling-design-system",
-  "version": "1.0.0",
+  "version": "0.1.9",
   "main": "index.js",
   "scripts": {
+    "build": "nx build ui-components --emptyOutDir",
+    "every-app": "nx serve every-app",
+    "storybook": "nx storybook ui-components",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "version": "npm version --workspace=ui-components --no-git-tag-version --no-commit"
+    "version-bump": "npm version --no-git-tag-version --no-commit",
+    "postversion": "node scripts/sync-versions.js"
   },
   "author": "",
   "license": "ISC",
   "description": "",
+  "workspaces": [
+    "ui-components",
+    "every-app"
+  ],
   "devDependencies": {
     "@babel/core": "^7.14.5",
     "@babel/preset-react": "^7.14.5",
@@ -57,17 +65,5 @@
     "vite-plugin-dts": "^4.5.4",
     "vitest": "^3.0.0"
   },
-  "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
-    "@fontsource-variable/bodoni-moda-sc": "^5.2.9",
-    "@fontsource-variable/raleway": "^5.2.7",
-    "@mui/icons-material": "^7.3.2",
-    "@mui/material": "^7.3.2",
-    "react": "19.1.1",
-    "react-dom": "19.1.1",
-    "react-error-boundary": "^6.0.0",
-    "react-router-dom": "6.29.0",
-    "zustand": "^5.0.8"
-  }
+  "dependencies": {}
 }

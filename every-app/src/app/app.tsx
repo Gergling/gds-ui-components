@@ -3,17 +3,30 @@ import { Route, Routes, Link } from 'react-router-dom';
 import {
   AppHeader,
   AppThemeProvider,
-} from 'ui-components';
+  useAppTheme,
+} from '@gergling/ui-components';
 
 const StyledApp = styled.div`
   // Your style here
 `;
+
+const ThemeDisplay = () => {
+  const { theme: { colors } } = useAppTheme();
+  return (
+    <>
+      <div style={{ backgroundColor: colors.primary.main, color: colors.primary.on }}>Primary: {colors.primary.main}</div>
+      <div style={{ backgroundColor: colors.secondary.main, color: colors.secondary.on }}>Secondary: {colors.secondary.main}</div>
+      <div style={{ backgroundColor: colors.tertiary.main, color: colors.tertiary.on }}>Tertiary: {colors.tertiary.main}</div>
+    </>
+  );
+};
 
 export function App() {
   return (
     <AppThemeProvider>
       <StyledApp>
         <AppHeader title='Gregory, Michael & Davies' />
+        <ThemeDisplay />
 
         {/* START: routes */}
         {/* These routes and navigation have been generated for you */}

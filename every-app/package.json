@@ -1,0 +1,20 @@
+{
+  "name": "@gergling/every-app",
+  "version": "0.1.9",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@gergling/ui-components": "file:../dist/ui-components",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "@mui/material": "^7.3.2",
+    "@mui/icons-material": "^7.3.2",
+    "@fontsource-variable/bodoni-moda-sc": "^5.2.9",
+    "@fontsource-variable/raleway": "^5.2.7"
+  }
+}

@@ -32,6 +32,7 @@ const GreyscaleTones = () => (
   <Grid columns={13} container>
     <ToneSwatch backgroundColor='#000' value='NA' />
     {toneBrightnessList.map((tone) => <ToneSwatch
+      key={tone}
       backgroundColor={`hsl(0, 0%, ${tone}%)`}
       value={tone}
     />)}
@@ -41,7 +42,7 @@ const GreyscaleTones = () => (
 export const HueTones = () => {
   return <StyledHueTones>
     <div>
-      {toneHueList.map((hue) => <Tones hue={hue} />)}
+      {toneHueList.map((hue) => <Tones key={hue} hue={hue} />)}
     </div>
     <div>
       <GreyscaleTones />
