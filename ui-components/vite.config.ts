@@ -1,32 +1,30 @@
 import { defineConfig, LibraryFormats } from 'vite';
 import react from '@vitejs/plugin-react';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
-import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 import dts from 'vite-plugin-dts';
 import * as path from 'path';
 
-export default defineConfig(() => ({
+const packagePath = __dirname;
+const tsconfigLibPath = path.join(packagePath, 'tsconfig.lib.json');
+
+console.log('tsconfigLibPath', tsconfigLibPath)
+export default defineConfig({
   root: __dirname,
   cacheDir: '../node_modules/.vite/ui-components',
   plugins: [
     react(), 
     nxViteTsPaths(), 
-    nxCopyAssetsPlugin(['*.md']),
     dts({
       entryRoot: 'src',
-      tsconfigPath: path.join(__dirname, 'tsconfig.lib.json'),
-      // skipDiagnostics: true,
+      tsconfigPath: tsconfigLibPath,
+      copyDtsFiles: true,
     }),
   ],
-  // Uncomment this if you are using workers.
-  // worker: {
-  //  plugins: [ nxViteTsPaths() ],
-  // },
   build: {
     lib: {
       entry: 'src/index.ts',
       name: 'ui-components',
-      fileName: 'index',
+      fileName: (format) => `index.${format === 'es' ? 'es.js' : 'js'}`,
       formats: ['es', 'cjs'] as LibraryFormats[],
     },
     rollupOptions: {
@@ -41,7 +39,6 @@ export default defineConfig(() => ({
     },
     reportCompressedSize: true,
     target: 'esnext',
-    outDir: '../../dist/ui-components',
   },
   test: {
     name: 'ui-components',
@@ -55,4 +52,4 @@ export default defineConfig(() => ({
       provider: 'v8' as const,
     },
   },
-}));
+});
