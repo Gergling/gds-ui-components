@@ -4,7 +4,7 @@ import {
   AppHeader,
   AppThemeProvider,
   useAppTheme,
-} from 'ui-components';
+} from '@gergling/ui-components';
 
 const StyledApp = styled.div`
   // Your style here
