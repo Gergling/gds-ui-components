@@ -93,7 +93,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install --omit=dev --ignore-scripts
+        run: npm install --ignore-scripts
 
       - name: Build the library
         run: npx nx run ui-components:build
