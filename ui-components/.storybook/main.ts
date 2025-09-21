@@ -19,7 +19,6 @@ const config: StorybookConfig = {
         fs: {
           allow: [
             searchForWorkspaceRoot(process.cwd()),
-            '../node_modules/@fontsource-variable',
           ],
         },
       },
