@@ -6,6 +6,8 @@ const rootPackageJsonPath = path.resolve(rootPath, 'package.json');
 const rootPackageJson = JSON.parse(fs.readFileSync(rootPackageJsonPath, 'utf8'));
 const version = rootPackageJson.version;
 
+console.log(`Syncing all package versions to ${version}`);
+
 const filesToUpdate = [
   'every-app',
   'ui-components',

@@ -1,12 +1,13 @@
 {
   "name": "gds-gergling-design-system",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "main": "index.js",
   "scripts": {
     "build": "nx build ui-components --emptyOutDir",
     "every-app": "nx serve every-app",
     "storybook": "nx storybook ui-components",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "version-bump": "npm version --no-git-tag-version --no-commit",
     "postversion": "node scripts/sync-versions.js"
   },
   "author": "",
