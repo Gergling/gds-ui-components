@@ -8,7 +8,7 @@ export const toneBrightnessList = [
   95, 98, 99
 ];
 
-const segments = 6;
+const segments = 12;
 const size = 360 / segments;
 export const toneHueList = Array.from({ length: segments }).map((_, i) => i * size);
 
