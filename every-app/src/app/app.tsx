@@ -3,8 +3,12 @@ import { Route, Routes, Link } from 'react-router-dom';
 import {
   AppHeader,
   AppThemeProvider,
+  MetricChip,
   useAppTheme,
-} from '@gergling/ui-components';
+} from '@gergling/ui-components-local';
+import '@fontsource-variable/bodoni-moda-sc';
+import '@fontsource-variable/raleway';
+import '@fontsource-variable/raleway/wght-italic.css';
 
 const StyledApp = styled.div`
   // Your style here
@@ -26,6 +30,9 @@ export function App() {
     <AppThemeProvider>
       <StyledApp>
         <AppHeader title='Gregory, Michael & Davies' />
+        <div style={{ margin: '1rem' }}>
+          <MetricChip label='Days since last build issue' value='0' color='primary' />
+        </div>
         <ThemeDisplay />
 
         {/* START: routes */}
