@@ -49,7 +49,7 @@ const MetricChipColorDefault = ({
 };
 
 type MetricChipColorProps = MetricChipColorDefaultProps & {
-  color: ChipProps['color'];
+  color?: ChipProps['color'];
 };
 
 const MetricChipColor = ({
@@ -91,7 +91,7 @@ export const MetricChip = ({
       <StyledMetricChipLabel
         label={label}
       />
-      {color === 'default'
+      {!color || color === 'default'
         ? <MetricChipColorDefault
           icon={icon}
           value={value}

@@ -7,7 +7,7 @@ const meta: Meta<typeof MetricChip> = {
   title: 'Data Display/MetricChip',
   argTypes: {
     color: {
-      options: ['default', 'primary', 'secondary', 'tertiary', 'error', 'info', 'success', 'warning'],
+      options: [undefined, 'default', 'primary', 'secondary', 'tertiary', 'error', 'info', 'success', 'warning'],
       control: { type: 'inline-radio' },
     },
     label: {
