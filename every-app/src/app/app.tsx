@@ -3,6 +3,8 @@ import { Route, Routes, Link } from 'react-router-dom';
 import {
   AppHeader,
   AppThemeProvider,
+  BlogList,
+  BlogSummaryProps,
   MetricChip,
   useAppTheme,
 } from '@gergling/ui-components-local';
@@ -26,6 +28,32 @@ const ThemeDisplay = () => {
 };
 
 export function App() {
+  const articles: BlogSummaryProps[] = [
+    {
+      media: {
+        image: '/images/red.jpg',
+      },
+      slug: 'red',
+      subheader: 'Published 13 minutes ago',
+      title: 'Red',
+    },
+    {
+      media: {
+        image: '/images/green.png',
+      },
+      slug: 'green',
+      subheader: 'Published 13 hours ago',
+      title: 'Green',
+    },
+    {
+      media: {
+        image: '/images/blue.png',
+      },
+      slug: 'blue',
+      subheader: 'Published 13 days ago',
+      title: 'Blue',
+    },
+  ];
   return (
     <AppThemeProvider>
       <StyledApp>
@@ -34,6 +62,7 @@ export function App() {
           <MetricChip label='Days since last build issue' value='0' color='primary' />
         </div>
         <ThemeDisplay />
+        <BlogList articles={articles} />
 
         {/* START: routes */}
         {/* These routes and navigation have been generated for you */}
