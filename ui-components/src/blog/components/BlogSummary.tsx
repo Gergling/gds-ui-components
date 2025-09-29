@@ -1,40 +1,42 @@
 import {
   Card,
+  CardActionArea,
   CardHeader,
   CardHeaderProps,
   CardMedia,
-  CardMediaProps
+  CardMediaProps,
+  CardProps,
 } from "@mui/material";
-import { ComponentProps } from "react";
 
-export type BlogSummaryProps = ComponentProps<'div'> & {
+export type BlogSummaryProps = {
   media: CardMediaProps;
-  slug: string;
+  onClick: (event: React.MouseEvent) => void;
   subheader: CardHeaderProps['subheader'];
   title: CardHeaderProps['title'];
+  containerProps?: CardProps;
 };
 
 export const BlogSummary = ({
   media,
-  slug,
+  onClick,
   subheader,
   title,
   ...props
 }: BlogSummaryProps) => {
-  // TODO: Implement slug.
   return (
-    <Card {...props}>
-      <CardHeader
-        title={title}
-        subheader={subheader}
-      />
-      <CardMedia
-        component="img"
-        height="194"
-        image="/static/images/cards/paella.jpg"
-        alt="Paella dish"
-        {...media}
-      />
+    <Card {...props.containerProps}>
+      <CardActionArea onClick={onClick}>
+        <CardHeader
+          title={title}
+          subheader={subheader}
+        />
+        <CardMedia
+          component="img"
+          height="194"
+          alt={title}
+          {...media}
+        />
+      </CardActionArea>
     </Card>
   );
 };
