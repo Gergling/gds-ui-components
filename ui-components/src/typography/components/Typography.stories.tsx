@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Typography } from './Typography';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Typography> = {
