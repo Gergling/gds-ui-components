@@ -3,7 +3,7 @@ import { Pane } from './Pane.component';
 
 const meta: Meta<typeof Pane> = {
   component: Pane,
-  title: 'Components/Pane',
+  title: 'Surfaces/Pane',
 };
 
 export default meta;

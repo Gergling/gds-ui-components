@@ -5,7 +5,7 @@ import { PropsWithChildren, ReactNode } from 'react';
 
 const meta: Meta<typeof BlogList> = {
   component: BlogList,
-  title: 'Blog/List',
+  title: 'Data Display/Blog List',
 };
 
 export default meta;

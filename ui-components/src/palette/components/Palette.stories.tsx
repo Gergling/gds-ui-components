@@ -3,7 +3,7 @@ import { ColorPalette } from './Palette.component';
 
 const meta: Meta<typeof ColorPalette> = {
   component: ColorPalette,
-  title: 'MD3/Color Palette',
+  title: 'Theme/Color Palette',
 };
 
 export default meta;

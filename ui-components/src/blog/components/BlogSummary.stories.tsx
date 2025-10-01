@@ -3,7 +3,7 @@ import { BlogSummary } from './BlogSummary';
 
 const meta: Meta<typeof BlogSummary> = {
   component: BlogSummary,
-  title: 'Blog/Summary',
+  title: 'Surfaces/Blog Summary',
 };
 
 export default meta;
