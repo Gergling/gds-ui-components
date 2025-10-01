@@ -3,9 +3,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 export interface AppHeaderProps {
   title?: string;
+  openMenu: () => void;
 }
 
-export const AppHeader = ({ title }: AppHeaderProps) => {
+export const AppHeader = ({ openMenu, title }: AppHeaderProps) => {
   return (
     <AppBar position="static">
       <Toolbar>
@@ -15,6 +16,7 @@ export const AppHeader = ({ title }: AppHeaderProps) => {
           color="inherit"
           aria-label="menu"
           sx={{ mr: 2 }}
+          onClick={openMenu}
         >
           <MenuIcon />
         </IconButton>

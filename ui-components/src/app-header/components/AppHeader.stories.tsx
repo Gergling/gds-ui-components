@@ -12,5 +12,6 @@ type Story = StoryObj<typeof AppHeader>;
 export const Large: Story = {
   args: {
     title: 'Gregory, Michael & Davies',
+    openMenu: action('openMenu'),
   },
 };
