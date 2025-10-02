@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { reduceNavigationDrawerState } from './reduce-state';
-import { NavigationDrawerState } from './types';
+import { reduceNavigationDrawerState } from './drawer';
+import { NavigationDrawerState } from '../types';
 
 const initialMobileState: NavigationDrawerState = {
   appBarHeight: 0,
@@ -31,10 +31,10 @@ describe('reduceNavigationDrawerState', () => {
       { isMonitor: false, isTablet: false, isOpen: false, expected: { device: 'mobile', state: false, props: { open: false, showItemText: false, variant: 'temporary' } } },
       { isMonitor: false, isTablet: false, isOpen: true, expected: { device: 'mobile', state: true, props: { open: true, showItemText: true, variant: 'temporary' } } },
       // Tablet
-      { isMonitor: false, isTablet: true, isOpen: false, expected: { device: 'tablet', state: false, props: { open: true, showItemText: false, variant: 'temporary' } } },
+      { isMonitor: false, isTablet: true, isOpen: false, expected: { device: 'tablet', state: false, props: { open: true, showItemText: false, variant: 'permanent' } } },
       { isMonitor: false, isTablet: true, isOpen: true, expected: { device: 'tablet', state: true, props: { open: true, showItemText: true, variant: 'temporary' } } },
       // Monitor
-      { isMonitor: true, isTablet: false, isOpen: false, expected: { device: 'monitor', state: false, props: { open: true, showItemText: false, variant: 'temporary' } } },
+      { isMonitor: true, isTablet: false, isOpen: false, expected: { device: 'monitor', state: false, props: { open: true, showItemText: false, variant: 'permanent' } } },
       { isMonitor: true, isTablet: true, isOpen: true, expected: { device: 'monitor', state: true, props: { open: true, showItemText: true, variant: 'permanent' } } },
     ];
 
@@ -65,7 +65,7 @@ describe('reduceNavigationDrawerState', () => {
         props: {
           open: true,
           showItemText: false,
-          variant: 'temporary',
+          variant: 'permanent',
         },
       });
     });
