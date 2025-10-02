@@ -4,7 +4,7 @@ import { NavigationDrawerDevice } from "../types";
 // isMonitor and isTablet are fed based on a min-width media query check.
 // If none of that is set, we stick to the current device.
 
-export const getDevice = (
+export const getNavigationDrawerDevice = (
   currentDevice: NavigationDrawerDevice,
   isMonitor: boolean | undefined,
   isTablet: boolean | undefined,
