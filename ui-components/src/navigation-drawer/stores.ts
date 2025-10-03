@@ -6,12 +6,13 @@ export const navigationDrawerStore = create<
   NavigationDrawerState & NavigationDrawerActions
 >((set, get) => ({
   appBarHeight: 0,
+  containerLeftMargin: 0,
+  device: 'mobile',
   props: {
     open: false,
     showItemText: false,
     variant: "temporary",
   },
-  device: 'mobile',
   state: false,
   setAppBarHeight: (appBarHeight) => set({ appBarHeight }),
   setDevice: (isMonitor, isTablet) => {

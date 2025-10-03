@@ -5,6 +5,7 @@ import { NavigationDrawerProvider, useNavigationDrawer } from '../context';
 import { useEffect } from 'react';
 import { NavigationDrawerItem } from '../types';
 import { Home as HomeIcon, List as ListIcon } from '@mui/icons-material';
+import { ThemeSwitcher } from '../../theme';
 
 const items: NavigationDrawerItem[] = [
   {
@@ -20,7 +21,13 @@ const items: NavigationDrawerItem[] = [
 ];
 
 const Wrapper = () => {
-  const { setState, state, appHeaderRef } = useNavigationDrawer();
+  const {
+    appHeaderHeight,
+    appHeaderRef,
+    containerLeftMargin,
+    setState,
+    state,
+  } = useNavigationDrawer();
   const handleToggleMenu = () => setState(!state);
 
   useEffect(() => setState(true), [setState]);
@@ -35,6 +42,17 @@ const Wrapper = () => {
         }}
       />
       <NavigationDrawer items={items} />
+      <div style={{
+        top: `${appHeaderHeight}px`,
+        left: `${containerLeftMargin}px`,
+        transition: 'all 0.3s ease-in-out',
+        position: 'fixed',
+      }}>
+        <div>Line 1 is a block.</div>
+        <ThemeSwitcher />
+        <p>Line 2 is a paragraph.</p>
+        <p>Low-RAM Ipsum.</p>
+      </div>
     </>
   );
 };

@@ -16,6 +16,9 @@ export type NavigationDrawerState = {
   // This is just a 1:1 memory of the current state.
   device: NavigationDrawerDevice;
   state: boolean;
+
+  // This is for the page container margin.
+  containerLeftMargin: number;
 };
 
 type NavigationDrawerBaseActions = {

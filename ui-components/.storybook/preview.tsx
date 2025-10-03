@@ -9,7 +9,7 @@ import { MINIMAL_VIEWPORTS } from 'storybook/viewport';
 
 const preview: Preview = {
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
     viewport: {
       options: {
         ...MINIMAL_VIEWPORTS,
@@ -28,8 +28,18 @@ const preview: Preview = {
     (Story) => (
       <AppThemeProvider>
         <ErrorBoundary fallback={<div>Something bad has happened.</div>}>
-          <ThemeSwitcher />
-          <Story />
+          <div style={{
+            position: 'fixed',
+            top: '0',
+            left: '0',
+          }}>
+            <ThemeSwitcher />
+          </div>
+          <div style={{
+            marginTop: '50px',
+          }}>
+            <Story />
+          </div>
         </ErrorBoundary>
       </AppThemeProvider>
     ),

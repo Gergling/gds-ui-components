@@ -8,13 +8,13 @@ import {
 } from "@mui/material";
 import { useNavigationDrawer } from "../context";
 import { NavigationDrawerItem } from "../types";
+import { NAVIGATION_DRAWER_ICON_WIDTH, NAVIGATION_DRAWER_TEXT_MARGIN, NAVIGATION_DRAWER_TEXT_WIDTH } from "../constants";
 
 type NavigationDrawerProps = {
   items: NavigationDrawerItem[];
 };
 
 export const NavigationDrawer = ({ items }: NavigationDrawerProps) => {
-  // This will all need a context hook.
   const {
     props: {
       open,
@@ -43,15 +43,16 @@ export const NavigationDrawer = ({ items }: NavigationDrawerProps) => {
           <ListItem key={text} disablePadding>
             <ListItemButton onClick={onClick} sx={{
               paddingRight: 0,
+              paddingLeft: `${NAVIGATION_DRAWER_TEXT_MARGIN}px`,
             }}>
               <ListItemIcon sx={{
-                minWidth: '24px',
+                minWidth: `${NAVIGATION_DRAWER_ICON_WIDTH}px`,
               }}>
                 {icon}
               </ListItemIcon>
               <ListItemText primary={text} sx={{
-                marginLeft: '16px',
-                width: showItemText ? '120px' : 0,
+                marginLeft: `${NAVIGATION_DRAWER_TEXT_MARGIN}px`,
+                width: showItemText ? `${NAVIGATION_DRAWER_TEXT_WIDTH}px` : 0,
                 whiteSpace: 'nowrap',
                 transition: 'all 0.3s ease-in-out',
               }} />

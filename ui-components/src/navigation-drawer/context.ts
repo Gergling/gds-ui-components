@@ -13,12 +13,13 @@ const {
 
 const useNavigationDrawer = () => {
   const {
+    appBarHeight,
+    containerLeftMargin,
     props,
     setAppBarHeight,
     setDevice,
     setState,
     state,
-    appBarHeight,
   } = useContextHook();
   const {
     theme: {
@@ -40,6 +41,7 @@ const useNavigationDrawer = () => {
   return {
     appHeaderRef: ref,
     appHeaderHeight: appBarHeight,
+    containerLeftMargin,
     props,
     setState,
     state,
