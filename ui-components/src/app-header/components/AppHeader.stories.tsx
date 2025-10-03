@@ -13,6 +13,6 @@ type Story = StoryObj<typeof AppHeader>;
 export const Default: Story = {
   args: {
     title: 'Gregory, Michael & Davies',
-    openMenu: action('openMenu'),
+    toggleMenu: action('toggleMenu'),
   },
 };

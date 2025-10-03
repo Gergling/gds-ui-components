@@ -1,14 +1,15 @@
-import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
+import { AppBar, AppBarProps, IconButton, Toolbar, Typography } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 
 export interface AppHeaderProps {
   title?: string;
-  openMenu: () => void;
+  toggleMenu: () => void;
+  appBarProps?: AppBarProps;
 }
 
-export const AppHeader = ({ openMenu, title }: AppHeaderProps) => {
+export const AppHeader = ({ toggleMenu, title, appBarProps }: AppHeaderProps) => {
   return (
-    <AppBar position="static">
+    <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} {...appBarProps}>
       <Toolbar>
         <IconButton
           size="large"
@@ -16,7 +17,7 @@ export const AppHeader = ({ openMenu, title }: AppHeaderProps) => {
           color="inherit"
           aria-label="menu"
           sx={{ mr: 2 }}
-          onClick={openMenu}
+          onClick={toggleMenu}
         >
           <MenuIcon />
         </IconButton>
