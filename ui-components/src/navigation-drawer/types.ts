@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { DrawerProps } from "@mui/material";
 
 export type NavigationDrawerDevice = 'mobile' | 'tablet' | 'monitor';
@@ -17,7 +18,7 @@ export type NavigationDrawerState = {
   state: boolean;
 };
 
-export type NavigationDrawerBaseActions = {
+type NavigationDrawerBaseActions = {
   appBarHeight: number;
   isMonitor: boolean;
   isTablet: boolean;
@@ -25,5 +26,13 @@ export type NavigationDrawerBaseActions = {
 };
 export type NavigationDrawerSetProps = Partial<NavigationDrawerBaseActions>;
 export type NavigationDrawerActions = {
-  set: (props: NavigationDrawerSetProps) => void;
+  setAppBarHeight: (appBarHeight: number) => void;
+  setDevice: (isMonitor: boolean, isTablet: boolean) => void;
+  setState: (isOpen: boolean) => void;
+};
+
+export type NavigationDrawerItem = {
+  icon: ReactNode;
+  text: string;
+  onClick: React.MouseEventHandler;
 };
