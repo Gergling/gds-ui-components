@@ -1,13 +1,15 @@
 import styled from '@emotion/styled';
 import { Route, Routes, Link } from 'react-router-dom';
+import { Home as HomeIcon, List as ListIcon } from '@mui/icons-material';
 import {
-  AppHeader,
   AppThemeProvider,
   BlogList,
   BlogSummaryProps,
   MetricChip,
+  PageContainer,
   useAppTheme,
 } from '@gergling/ui-components-local';
+import { NavigationDrawerItem } from '@gergling/ui-components-local/navigation-drawer';
 import '@fontsource-variable/bodoni-moda-sc';
 import '@fontsource-variable/raleway';
 import '@fontsource-variable/raleway/wght-italic.css';
@@ -27,13 +29,26 @@ const ThemeDisplay = () => {
   );
 };
 
+const items: NavigationDrawerItem[] = [
+  {
+    icon: <HomeIcon />,
+    text: 'Home',
+    onClick: () => console.log('go home'),
+  },
+  {
+    icon: <ListIcon />,
+    text: 'Blogs',
+    onClick: () => console.log('go to blogs'),
+  },
+];
+
 export function App() {
   const articles: BlogSummaryProps[] = [
     {
       media: {
         image: '/images/red.jpg',
       },
-      slug: 'red',
+      onClick: () => 'red',
       subheader: 'Published 13 minutes ago',
       title: 'Red',
     },
@@ -41,7 +56,7 @@ export function App() {
       media: {
         image: '/images/green.png',
       },
-      slug: 'green',
+      onClick: () => 'green',
       subheader: 'Published 13 hours ago',
       title: 'Green',
     },
@@ -49,7 +64,7 @@ export function App() {
       media: {
         image: '/images/blue.png',
       },
-      slug: 'blue',
+      onClick: () => 'blue',
       subheader: 'Published 13 days ago',
       title: 'Blue',
     },
@@ -57,12 +72,21 @@ export function App() {
   return (
     <AppThemeProvider>
       <StyledApp>
-        <AppHeader title='Gregory, Michael & Davies' />
-        <div style={{ margin: '1rem' }}>
-          <MetricChip label='Days since last build issue' value='0' color='primary' />
-        </div>
-        <ThemeDisplay />
-        <BlogList articles={articles} />
+        <PageContainer
+          appHeaderProps={{
+            title: 'Gregory, Michael & Davies',
+          }}
+          navigationDrawerProps={{
+            items
+          }}
+        >
+          <div style={{ margin: '1rem' }}>
+            <MetricChip label='Days since last build issue' value='0' color='primary' />
+          </div>
+          <ThemeDisplay />
+          <BlogList articles={articles} />
+        </PageContainer>
+
 
         {/* START: routes */}
         {/* These routes and navigation have been generated for you */}
