@@ -18,7 +18,14 @@ const items: NavigationDrawerItem[] = [
 ];
 
 const Wrapper = () => (
-  <PageContainer items={items}>
+  <PageContainer
+    appHeaderProps={{
+      title: 'Navigation Drawer Example',
+    }}
+    navigationDrawerProps={{
+      items,
+    }}
+  >
     <div>Line 1 is a block.</div>
     <ThemeSwitcher />
     <p>Line 2 is a paragraph.</p>

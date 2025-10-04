@@ -1,17 +1,22 @@
 import { PropsWithChildren, useEffect } from "react";
 import {
   NavigationDrawer,
-  NavigationDrawerItem,
+  NavigationDrawerProps,
   NavigationDrawerProvider,
   useNavigationDrawer,
 } from "../../navigation-drawer";
-import { AppHeader } from "../../app-header";
+import { AppHeader, AppHeaderProps } from "../../app-header";
 
 type PageContainerProps = PropsWithChildren & {
-  items: NavigationDrawerItem[];
+  appHeaderProps?: Partial<AppHeaderProps>;
+  navigationDrawerProps: NavigationDrawerProps;
 };
 
-const Wrapper = ({ children, items }: PageContainerProps) => {
+const Wrapper = ({
+  appHeaderProps,
+  children,
+  navigationDrawerProps: { items },
+}: PageContainerProps) => {
   const {
     appHeaderHeight,
     appHeaderRef,
@@ -45,9 +50,16 @@ const Wrapper = ({ children, items }: PageContainerProps) => {
   );
 };
 
-export const PageContainer = ({ children, items }: PageContainerProps) => (
+export const PageContainer = ({
+  appHeaderProps,
+  children,
+  navigationDrawerProps
+}: PageContainerProps) => (
   <NavigationDrawerProvider>
-    <Wrapper items={items}>
+    <Wrapper
+      appHeaderProps={appHeaderProps}
+      navigationDrawerProps={navigationDrawerProps}
+    >
       {children}
     </Wrapper>
   </NavigationDrawerProvider>
