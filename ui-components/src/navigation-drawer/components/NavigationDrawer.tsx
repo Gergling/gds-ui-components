@@ -7,12 +7,14 @@ import {
   ListItemText
 } from "@mui/material";
 import { useNavigationDrawer } from "../context";
-import { NavigationDrawerItem } from "../types";
-import { NAVIGATION_DRAWER_ICON_WIDTH, NAVIGATION_DRAWER_TEXT_MARGIN, NAVIGATION_DRAWER_TEXT_WIDTH } from "../constants";
+import { NavigationDrawerProps } from "../types";
+import {
+  NAVIGATION_DRAWER_ICON_WIDTH,
+  NAVIGATION_DRAWER_TEXT_MARGIN,
+  NAVIGATION_DRAWER_TEXT_WIDTH
+} from "../constants";
 
-type NavigationDrawerProps = {
-  items: NavigationDrawerItem[];
-};
+
 
 export const NavigationDrawer = ({ items }: NavigationDrawerProps) => {
   const {

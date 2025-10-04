@@ -39,3 +39,7 @@ export type NavigationDrawerItem = {
   text: string;
   onClick: React.MouseEventHandler;
 };
+
+export type NavigationDrawerProps = {
+  items: NavigationDrawerItem[];
+};
