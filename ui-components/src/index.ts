@@ -4,3 +4,4 @@ export * from './components';
 export * from './metric-chip';
 export * from './styles';
 export * from './theme';
+export * from './typography';
