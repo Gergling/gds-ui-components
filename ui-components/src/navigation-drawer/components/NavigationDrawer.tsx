@@ -1,37 +1,21 @@
-import {
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText
-} from "@mui/material";
 import { useNavigationDrawer } from "../context";
-import { NavigationDrawerProps } from "../types";
-import {
-  NAVIGATION_DRAWER_ICON_WIDTH,
-  NAVIGATION_DRAWER_TEXT_MARGIN,
-  NAVIGATION_DRAWER_TEXT_WIDTH
-} from "../constants";
+import { useCallback } from "react";
+import { NavigationDrawerList } from "./NavigationDrawerList";
+import { Drawer } from "@mui/material";
 
-
-
-export const NavigationDrawer = ({ items }: NavigationDrawerProps) => {
+export const NavigationDrawer = () => {
   const {
-    props: {
-      open,
-      showItemText,
-      variant,
-    },
-    setState,
     appHeaderHeight,
+    props,
+    setState,
   } = useNavigationDrawer();
+  const onClose = useCallback(() => setState(false), [setState]);
 
   return (
     <Drawer
-      variant={variant}
-      open={open}
-      onClose={() => setState(false)}
+      variant={props.variant}
+      open={props.open}
+      onClose={onClose}
       sx={{
         flexShrink: 0,
         '& .MuiDrawer-paper': {
@@ -40,28 +24,7 @@ export const NavigationDrawer = ({ items }: NavigationDrawerProps) => {
         },
       }}
     >
-      <List>
-        {items.map(({ icon, onClick, text }) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton onClick={onClick} sx={{
-              paddingRight: 0,
-              paddingLeft: `${NAVIGATION_DRAWER_TEXT_MARGIN}px`,
-            }}>
-              <ListItemIcon sx={{
-                minWidth: `${NAVIGATION_DRAWER_ICON_WIDTH}px`,
-              }}>
-                {icon}
-              </ListItemIcon>
-              <ListItemText primary={text} sx={{
-                marginLeft: `${NAVIGATION_DRAWER_TEXT_MARGIN}px`,
-                width: showItemText ? `${NAVIGATION_DRAWER_TEXT_WIDTH}px` : 0,
-                whiteSpace: 'nowrap',
-                transition: 'all 0.3s ease-in-out',
-              }} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      <NavigationDrawerList />
     </Drawer>
   );
 };

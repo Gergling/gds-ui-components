@@ -1,15 +1,22 @@
-import { createContext, createElement, useContext } from 'react';
+import {
+  createContext,
+  createElement,
+  useContext,
+} from 'react';
 
-export const contextFactory = <T>(
-  valueFactory: () => T,
+type ProviderProps<T extends object | undefined = undefined> = T & {
+  children: React.ReactNode;
+};
+
+export const contextFactory = <T, U extends object | undefined = undefined>(
+  valueFactory: (props: U) => T,
   errorId: string,
 ) => {
   const Context = createContext<T | undefined>(undefined);
 
-  const Provider = ({ children }: {
-    children: React.ReactNode;
-  }) => {
-    const value = valueFactory();
+  const Provider = (props: ProviderProps<U>) => {
+    const { children } = props;
+    const value = valueFactory(props);
 
     return createElement(Context.Provider, { value }, children);
   };

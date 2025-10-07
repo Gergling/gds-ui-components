@@ -1,48 +1,68 @@
 import { useEffect } from "react";
-import { useMediaQuery } from "@mui/material";
 import { contextFactory } from "../common/context";
-import { useAppTheme } from "../theme";
+import { useBreakpoints } from "../theme";
 import { navigationDrawerStore } from "./stores";
-import { useElementHeight } from "../common/use-element-height";
+import {
+  NavigationDrawerActions,
+  NavigationDrawerItem,
+} from "./types";
+
+const useNavigationDrawerDevice = (setDevice: NavigationDrawerActions['setDevice']) => {
+  const {
+    isMonitor,
+    isTablet,
+  } = useBreakpoints();
+
+  useEffect(() => {
+    setDevice(isMonitor, isTablet);
+  }, [isMonitor, isTablet, setDevice]);
+};
 
 const {
   Context: NavigationDrawerContext,
   Provider: NavigationDrawerProvider,
   useContextHook,
-} = contextFactory(() => navigationDrawerStore(), 'navigationDrawer');
+} = contextFactory(
+  ({ items }: { items?: NavigationDrawerItem[] }) => {
+    const store = navigationDrawerStore();
+    const {
+      setDevice,
+      setItems
+    } = store;
+
+    useEffect(() => {
+      setItems(items ?? []);
+    }, [items, setItems]);
+    useNavigationDrawerDevice(setDevice);
+
+    return store;
+  },
+  'navigationDrawer'
+);
 
 const useNavigationDrawer = () => {
   const {
     appBarHeight,
+    appBarRef,
     containerLeftMargin,
+    device,
+    items,
     props,
     setAppBarHeight,
-    setDevice,
+    setAppBarRef,
     setState,
     state,
   } = useContextHook();
-  const {
-    theme: {
-      breakpoints,
-    },
-  } = useAppTheme();
-  const isTablet = useMediaQuery(breakpoints.up('md'));
-  const isMonitor = useMediaQuery(breakpoints.up('lg'));
-  const [ref, height] = useElementHeight();
-
-  useEffect(() => {
-    setAppBarHeight(height);
-  }, [height, setAppBarHeight]);
-
-  useEffect(() => {
-    setDevice(isMonitor, isTablet);
-  }, [isMonitor, isTablet, setDevice]);
 
   return {
-    appHeaderRef: ref,
     appHeaderHeight: appBarHeight,
+    appHeaderRef: appBarRef,
     containerLeftMargin,
+    device,
+    items,
     props,
+    setAppBarHeight,
+    setAppBarRef,
     setState,
     state,
   };

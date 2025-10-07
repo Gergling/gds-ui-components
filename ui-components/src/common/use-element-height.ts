@@ -1,7 +1,10 @@
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { RefObject, useCallback, useLayoutEffect, useState } from "react";
 
-export const useElementHeight = () => {
-  const elementRef = useRef<HTMLDivElement>(null);
+export const useElementHeight = <
+  T extends HTMLElement = HTMLDivElement
+>(
+  elementRef: RefObject<T | null>
+) => {
   const [height, setHeight] = useState(0);
 
   // Function to calculate and set the height
@@ -10,7 +13,7 @@ export const useElementHeight = () => {
       // Use offsetHeight to get the element's height including padding and border.
       setHeight(elementRef.current.offsetHeight);
     }
-  }, []);
+  }, [elementRef]);
 
   // 1. Initial measurement and listener setup
   useLayoutEffect(() => {
@@ -35,7 +38,7 @@ export const useElementHeight = () => {
         observer.disconnect();
       };
     }
-  }, [calculateHeight]);
+  }, [calculateHeight, elementRef]);
 
-  return [elementRef, height] as const;
+  return height;
 };

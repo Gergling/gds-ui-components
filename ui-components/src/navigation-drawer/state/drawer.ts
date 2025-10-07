@@ -1,9 +1,10 @@
-import { NAVIGATION_DRAWER_ICON_WIDTH, NAVIGATION_DRAWER_TEXT_MARGIN, NAVIGATION_DRAWER_TEXT_WIDTH } from "../constants";
+import { shallow } from 'zustand/shallow';
+import { NAVIGATION_DRAWER_RAIL_WIDTH, NAVIGATION_DRAWER_TEXT_WIDTH } from "../constants";
 import {
   NavigationDrawerSetProps,
   NavigationDrawerState,
   NavigationDrawerVariant
-} from "../types";
+} from '../types';
 import { getNavigationDrawerDevice } from "./device";
 
 // Mobile: Invisible/Overlay
@@ -14,8 +15,6 @@ import { getNavigationDrawerDevice } from "./device";
 // Rail: open={true}, non-icon list items have width 0, variant="temporary"
 // Overlay: open={true}, non-icon list items have chosen width, variant="temporary"
 // Permanent: open={true}, non-icon list items have chosen width, variant="permanent"
-
-const RAIL_WIDTH = NAVIGATION_DRAWER_ICON_WIDTH + (NAVIGATION_DRAWER_TEXT_MARGIN * 2);
 
 export const reduceNavigationDrawerState = (
   currentState: NavigationDrawerState,
@@ -29,27 +28,39 @@ export const reduceNavigationDrawerState = (
   const isNotMobile = device !== 'mobile';
   const state = isOpen ?? currentState.state;
 
-  // Permanent always shows the drawer, and temporary only shows it when open and provides an overlay.
-  const variant: NavigationDrawerVariant = (device === 'tablet' && !state)
-    || device === 'monitor' ? 'permanent' : 'temporary';
+  // Permanent always shows the drawer, and temporary only shows it when open
+  // and provides an overlay.
+  const variant: NavigationDrawerVariant = isNotMobile ? 'permanent' : 'temporary';
 
   // This is to explicitly switch out of rail mode, so when it's cleared we would just have the icon width.
   const showItemText = !!state;
 
-  // This makes the temporary variant visible.
-  const open = state || isNotMobile;
+  // The drawer "open" state is deliberately abstracted because what
+  // constitutes "open" in our usage differs from the Drawer component property.
+  const open = state;
+
+  // This is for including the backdrop when the drawer is open but the device is not monitor.
+  const backdrop = state && device === 'tablet';
 
   // This is for adding to the left side of the page container.
   const isRailWidthAdded = isNotMobile;
-  const isTextWidthAdded = showItemText && variant === 'permanent';
-  const railWidth = isRailWidthAdded ? RAIL_WIDTH : 0;
+  const isTextWidthAdded = showItemText && device === 'monitor';
+  const railWidth = isRailWidthAdded ? NAVIGATION_DRAWER_RAIL_WIDTH : 0;
   const textWidth = isTextWidthAdded ? NAVIGATION_DRAWER_TEXT_WIDTH : 0;
+  // Should be just the rail for tablet.
   const containerLeftMargin = railWidth + textWidth;
+
+  // These properties apply directly to a component in some way.
+  const newProps = { backdrop, open, showItemText, variant };
 
   return {
     containerLeftMargin,
     device,
-    props: { open, showItemText, variant },
+    // Only update the props object if its contents have actually changed.
+    // This prevents re-renders by creating a new object reference unnecessarily.
+    props: shallow(currentState.props, newProps)
+      ? currentState.props
+      : newProps,
     state,
   };
 };

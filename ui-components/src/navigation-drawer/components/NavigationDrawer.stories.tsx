@@ -1,39 +1,58 @@
+import { Backdrop } from '@mui/material';
 import type { Meta, StoryObj } from '@storybook/react';
+import { action } from 'storybook/actions';
 import { NavigationDrawer } from './NavigationDrawer';
 import { AppHeader } from '../../app-header/components/AppHeader';
 import { NavigationDrawerProvider, useNavigationDrawer } from '../context';
-import { useEffect } from 'react';
-import { NavigationDrawerItem } from '../types';
+import { useEffect, useRef } from 'react';
+import { NavigationDrawerAppBarHTMLElement, NavigationDrawerItem } from '../types';
 import { Home as HomeIcon, List as ListIcon } from '@mui/icons-material';
 import { ThemeSwitcher } from '../../theme';
+import { useElementHeight } from '../../common/use-element-height';
 
 const items: NavigationDrawerItem[] = [
   {
     icon: <HomeIcon />,
     text: 'Home',
-    onClick: () => console.log('go home'),
+    onClick: action('go home'),
   },
   {
     icon: <ListIcon />,
     text: 'Blogs',
-    onClick: () => console.log('go to blogs'),
+    onClick: action('go to blogs'),
   },
 ];
 
 const Wrapper = () => {
   const {
-    appHeaderHeight,
-    appHeaderRef,
     containerLeftMargin,
+    props: {
+      backdrop,
+    },
+    setAppBarHeight,
     setState,
     state,
   } = useNavigationDrawer();
   const handleToggleMenu = () => setState(!state);
 
+  const appHeaderRef = useRef<NavigationDrawerAppBarHTMLElement>(null);
+  const appHeaderHeight = useElementHeight(appHeaderRef);
+
+  useEffect(() => {
+    setAppBarHeight(appHeaderHeight);
+  }, [appHeaderHeight, setAppBarHeight]);
   useEffect(() => setState(true), [setState]);
 
   return (
     <>
+      <Backdrop
+        sx={(theme) => ({
+          color: theme.colors.primary.on,
+          zIndex: theme.zIndex.drawer
+        })}
+        open={backdrop}
+        onClick={() => setState(false)}
+      />
       <AppHeader
         title="Navigation Drawer Example"
         toggleMenu={handleToggleMenu}
@@ -41,7 +60,7 @@ const Wrapper = () => {
           ref: appHeaderRef
         }}
       />
-      <NavigationDrawer items={items} />
+      <NavigationDrawer />
       <div style={{
         top: `${appHeaderHeight}px`,
         left: `${containerLeftMargin}px`,
@@ -58,7 +77,7 @@ const Wrapper = () => {
 };
 
 const WrapperProvider = () => (
-  <NavigationDrawerProvider>
+  <NavigationDrawerProvider items={items}>
     <Wrapper />
   </NavigationDrawerProvider>
 );
