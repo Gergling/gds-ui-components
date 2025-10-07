@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { action } from 'storybook/actions';
 import { Home as HomeIcon, List as ListIcon } from '@mui/icons-material';
 import { ThemeSwitcher } from '../../theme';
 import { NavigationDrawerItem } from '../../navigation-drawer/types';
@@ -8,12 +9,12 @@ const items: NavigationDrawerItem[] = [
   {
     icon: <HomeIcon />,
     text: 'Home',
-    onClick: () => console.log('go home'),
+    onClick: action('go home'),
   },
   {
     icon: <ListIcon />,
     text: 'Blogs',
-    onClick: () => console.log('go to blogs'),
+    onClick: action('go to blogs'),
   },
 ];
 

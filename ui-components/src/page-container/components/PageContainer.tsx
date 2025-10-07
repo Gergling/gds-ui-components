@@ -15,7 +15,6 @@ type PageContainerProps = PropsWithChildren & {
 const Wrapper = ({
   appHeaderProps,
   children,
-  navigationDrawerProps: { items },
 }: PageContainerProps) => {
   const {
     appHeaderHeight,
@@ -34,15 +33,15 @@ const Wrapper = ({
         title="Navigation Drawer Example"
         toggleMenu={handleToggleMenu}
         appBarProps={{
+          ...appHeaderProps,
           ref: appHeaderRef
         }}
       />
-      <NavigationDrawer items={items} />
+      <NavigationDrawer />
       <div style={{
         marginTop: `${appHeaderHeight}px`,
         marginLeft: `${containerLeftMargin}px`,
         transition: 'all 0.3s ease-in-out',
-        // position: 'fixed',
       }}>
         {children}
       </div>
@@ -55,7 +54,7 @@ export const PageContainer = ({
   children,
   navigationDrawerProps
 }: PageContainerProps) => (
-  <NavigationDrawerProvider>
+  <NavigationDrawerProvider items={navigationDrawerProps.items}>
     <Wrapper
       appHeaderProps={appHeaderProps}
       navigationDrawerProps={navigationDrawerProps}
