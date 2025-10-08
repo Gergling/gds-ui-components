@@ -3,6 +3,8 @@ import path from 'path';
 import { interpolateHue } from './interpolate-hue.js';
 import { getJobStatus } from './get-job-status.js';
 
+const label = 'Unit Tests';
+
 const coverageSummaryPath = path.resolve(
   'ui-components',
   'coverage',
@@ -34,35 +36,32 @@ const reduceSumFactory = (report) =>
   (acc, prop) =>
     acc + report.total[prop].pct;
 
-const getCoverageHue = () => {
+const getCoverageMean = () => {
   const report = getCoverageReport();
   const sum = props.reduce(reduceSumFactory(report), 0);
   if (sum === 0) return 0;
   const mean = sum / props.length;
-  const hue = interpolateHue(mean, 0, 80);
-  return hue;
+  return mean;
 }
 
 const getColour = (hue) => `hsl(${hue}, 100%, 40%)`;
 
-export const getUnitTestRating = () => {
-  const testsStatus = getJobStatus('tests');
-  const label = 'Unit Tests';
-  if (testsStatus !== 'success') return {
-    color: getColour(0),
-    label,
-    message: 'Failed',
-  };
+const getFailedStatus = (message) => ({
+  color: getColour(0),
+  label,
+  message,
+});
 
-  const hue = getCoverageHue();
+export const getUnitTestRating = async () => {
+  const testsStatus = await getJobStatus('Run unit tests');
+  if (testsStatus !== 'success') return getFailedStatus('Failed');
 
-  if (hue === 0) return {
-    color: getColour(0),
-    label,
-    message: 'No coverage',
-  };
+  const mean = getCoverageMean();
 
-  const color = `hsl(${hue}, 100%, 40%)`;
+  if (mean === 0) return getFailedStatus('No coverage');
+
+  const hue = interpolateHue(mean, 0, 80);
+  const color = getColour(hue);
   const message = `${mean.toFixed(0)}%`;
 
   return {

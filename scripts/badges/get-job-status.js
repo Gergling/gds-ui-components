@@ -20,7 +20,6 @@ const getRunId = async () => {
       branch: 'main',
       per_page: 1,
     });
-    console.log('runs', runs.workflow_runs)
     if (runs.workflow_runs.length === 0) return 'unknown';
     return runs.workflow_runs[0].id;
   } catch (error) {
@@ -40,7 +39,6 @@ export async function getJobStatus(jobName) {
     });
 
     const job = jobs.jobs.find(j => j.name === jobName);
-    console.log('job', job)
     return job ? job.conclusion : 'not_found';
   } catch (error) {
     console.error(`Error fetching status for job ${jobName}:`, error);
