@@ -146,6 +146,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: coverage-summary
+          path: ui-components/coverage
 
       - name: Check for downloaded artifact
         run: ls -al ui-components/coverage/
