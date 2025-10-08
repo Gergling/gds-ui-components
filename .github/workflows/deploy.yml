@@ -9,6 +9,7 @@ jobs:
   tag:
     name: Tag with ui-components/package.json version
     runs-on: ubuntu-22.04
+    needs: status
     permissions:
       contents: write
     outputs:
@@ -22,20 +23,6 @@ jobs:
         uses: martinbeentjes/npm-get-version-action@v1.3.1
         with:
           path: ui-components
-
-      # - name: Create tag
-      #   uses: actions/github-script@v8
-      #   with:
-      #     script: |
-      #       github.rest.git.createRef({
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         ref: 'refs/tags/v${{ steps.package-version.outputs.current-version}}',
-      #         sha: context.sha
-      #       }).catch(err => {
-      #         if (err.status !== 422) throw err;
-      #         console.log('Tag for version "${{ steps.package-version.outputs.current-version}}" already exists. Skipping tag creation.');
-      #       })
 
       - name: Create tag
         id: create_tag
@@ -84,7 +71,7 @@ jobs:
         uses: PostHog/check-package-version@v2
         with:
           path: ui-components
-          
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -103,3 +90,70 @@ jobs:
           token: ${{ secrets.NPM_TOKEN }}
           package: dist/ui-components
           access: public
+
+  tests:
+    name: Run unit tests
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+      - uses: ./.github/actions/setup
+
+      - name: Run unit tests
+        run: npx nx run ui-components:test --coverage
+
+      - name: Upload coverage summary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-summary
+          path: ui-components/coverage/coverage-summary.json
+
+  static:
+    name: Run static code checks
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+      - uses: ./.github/actions/setup
+
+      - name: Run linter
+        run: npx nx run ui-components:lint
+
+  status:
+    runs-on: ubuntu-latest
+    # This job needs to run after lint and test are complete
+    needs: [static, tests]
+    # Run even if previous jobs fail, so we can report the failure
+    if: always()
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download coverage summary artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-summary
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate Status JSON
+        run: node scripts/generate-status.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit status file
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'docs: update CI status badge'
+          file_pattern: 'status/*.json'

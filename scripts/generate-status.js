@@ -1,11 +1,11 @@
 const { generate } = require('./badges/generate');
-const { getCoverageRating } = require('./badges/coverage');
+const { getUnitTestRating } = require('./badges/unit-tests');
 
 const jobs = {
   // tag: 
   // publish:
   // basic: getBasicValidationStatus,
-  coverage: getCoverageRating,
+  'unit-tests': getUnitTestRating,
 };
 
 async function main() {

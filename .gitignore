@@ -7,3 +7,6 @@ vitest.config.*.timestamp*
 storybook-static
 node_modules/
 dist/
+*/coverage/
+
+.env
