@@ -15,4 +15,5 @@ runs:
         cache: 'npm'
 
     - name: Install dependencies
+      shell: bash
       run: npm install --ignore-scripts
