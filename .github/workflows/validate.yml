@@ -1,0 +1,50 @@
+name: 'Validate'
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  tests:
+    name: Run unit tests
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+      - uses: ./.github/actions/setup
+
+      - name: Run unit tests
+        run: npx nx run ui-components:test --coverage
+
+  basic:
+    name: Run basic quality checks
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+      - uses: ./.github/actions/setup
+
+      - name: Run linter
+        run: npx nx run ui-components:lint
+
+      # - name: Upload coverage summary artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: coverage-summary
+      #     path: coverage/ui-components/coverage-summary.json
+
+      # - name: Download coverage summary artifact
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: coverage-summary
+
+      # - name: Generate Status JSON
+      #   run: node scripts/generate-status.js
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
