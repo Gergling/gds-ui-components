@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+env:
+  COVERAGE_DIR: ui-components/coverage
+  COVERAGE_FILENAME: coverage-summary.json
+
 jobs:
   tag:
     name: Tag with ui-components/package.json version
@@ -108,7 +112,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-summary
-          path: ui-components/coverage/coverage-summary.json
+          path: ${{ env.COVERAGE_DIR }}/${{ env.COVERAGE_FILENAME }}
 
   static:
     name: Run static code checks
@@ -146,10 +150,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: coverage-summary
-          path: ui-components/coverage
+          path: ${{ env.COVERAGE_DIR }}
 
       - name: Check for downloaded artifact
-        run: ls -al ui-components/coverage/
+        run: ls -al ${{ env.COVERAGE_DIR }}/
 
       - name: Generate Status JSON
         run: node scripts/generate-status.js
@@ -159,5 +163,5 @@ jobs:
       - name: Commit status file
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: 'docs: update CI status badge'
+          commit_message: 'docs: Update CI status badge [skip ci]'
           file_pattern: 'status/*.json'
