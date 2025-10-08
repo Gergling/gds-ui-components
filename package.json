@@ -8,6 +8,7 @@
     "storybook": "nx storybook ui-components",
     "test": "echo \"Error: no test specified\" && exit 1",
     "version": "npm version --no-git-tag-version --no-commit",
+    "status": "node scripts/generate-status.js",
     "postversion": "node scripts/sync-versions.js"
   },
   "author": "",
