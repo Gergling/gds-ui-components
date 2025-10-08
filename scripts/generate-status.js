@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { generate } = require('./badges/generate');
 const { getUnitTestRating } = require('./badges/unit-tests');
 
