@@ -194,7 +194,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'dist/storybook/ui-components'
+          path: 'dist/ui-components'
 
   # This job deploys the artifact to GitHub Pages
   deploy-storybook:
