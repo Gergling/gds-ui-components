@@ -11,6 +11,7 @@ const initialState: NavigationDrawerState = {
   props: {
     backdrop: false,
     open: false,
+    showItemIcon: false,
     showItemText: false,
     variant: "temporary",
   },
