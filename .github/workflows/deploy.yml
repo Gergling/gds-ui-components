@@ -131,6 +131,7 @@ jobs:
         run: npx nx run ui-components:lint
 
   status:
+    name: Update CI status badges
     runs-on: ubuntu-latest
     # This job needs to run after lint and test are complete
     needs: [static, tests]
