@@ -182,7 +182,7 @@ jobs:
       - uses: ./.github/actions/setup
 
       - name: Build Storybook
-        run: npx nx run ui-components:build-storybook --output-dir storybook-static
+        run: npm run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -190,7 +190,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'storybook-static'
+          path: 'dist/storybook/ui-components'
 
   # This job deploys the artifact to GitHub Pages
   deploy-storybook:
