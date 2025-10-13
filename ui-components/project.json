@@ -23,6 +23,15 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     },
+    "type-check": {
+      "executor": "@nx/js:tsc",
+      "options": {
+        "outputPath": "dist/out-tsc/ui-components",
+        "main": "ui-components/src/index.ts",
+        "tsConfig": "ui-components/tsconfig.lib.json",
+        "noEmit": true
+      }
+    },
     "storybook": {
       "options": {
         "port": 6006
