@@ -12,6 +12,7 @@ export type NavigationDrawerState = {
   // This is what will be put through the navigation drawer components.
   props: {
     open: boolean;
+    showItemIcon: boolean;
     showItemText: boolean;
     variant: NavigationDrawerVariant;
     backdrop: boolean;

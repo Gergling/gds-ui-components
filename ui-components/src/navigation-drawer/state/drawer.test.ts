@@ -12,6 +12,7 @@ const initialMobileState: NavigationDrawerState = {
   props: {
     backdrop: false,
     open: false,
+    showItemIcon: false,
     showItemText: false,
     variant: 'temporary',
   },
@@ -27,6 +28,7 @@ const initialMonitorState: NavigationDrawerState = {
   props: {
     backdrop: false,
     open: true,
+    showItemIcon: true,
     showItemText: true,
     variant: 'permanent',
   },
@@ -36,14 +38,14 @@ describe('reduceNavigationDrawerState', () => {
   describe('Device and State Changes', () => {
     const testCases = [
       // Mobile
-      { isMonitor: false, isTablet: false, isOpen: false, expected: { containerLeftMargin: 0, device: 'mobile', state: false, props: { backdrop: false, open: false, showItemText: false, variant: 'temporary' } } },
-      { isMonitor: false, isTablet: false, isOpen: true, expected: { containerLeftMargin: 0, device: 'mobile', state: true, props: { backdrop: false, open: true, showItemText: true, variant: 'temporary' } } },
+      { isMonitor: false, isTablet: false, isOpen: false, expected: { containerLeftMargin: 0, device: 'mobile', state: false, props: { backdrop: false, open: false, showItemIcon: false, showItemText: false, variant: 'temporary' } } },
+      { isMonitor: false, isTablet: false, isOpen: true, expected: { containerLeftMargin: 0, device: 'mobile', state: true, props: { backdrop: true, open: true, showItemIcon: true, showItemText: true, variant: 'temporary' } } },
       // Tablet
-      { isMonitor: false, isTablet: true, isOpen: false, expected: { containerLeftMargin: 56, device: 'tablet', state: false, props: { backdrop: false, open: false, showItemText: false, variant: 'permanent' } } },
-      { isMonitor: false, isTablet: true, isOpen: true, expected: { containerLeftMargin: 56, device: 'tablet', state: true, props: { backdrop: true, open: true, showItemText: true, variant: 'permanent' } } },
+      { isMonitor: false, isTablet: true, isOpen: false, expected: { containerLeftMargin: 56, device: 'tablet', state: false, props: { backdrop: false, open: false, showItemIcon: true, showItemText: false, variant: 'permanent' } } },
+      { isMonitor: false, isTablet: true, isOpen: true, expected: { containerLeftMargin: 56, device: 'tablet', state: true, props: { backdrop: true, open: true, showItemIcon: true, showItemText: true, variant: 'permanent' } } },
       // Monitor
-      { isMonitor: true, isTablet: false, isOpen: false, expected: { containerLeftMargin: 56, device: 'monitor', state: false, props: { backdrop: false, open: false, showItemText: false, variant: 'permanent' } } },
-      { isMonitor: true, isTablet: true, isOpen: true, expected: { containerLeftMargin: 176, device: 'monitor', state: true, props: { backdrop: false, open: true, showItemText: true, variant: 'permanent' } } },
+      { isMonitor: true, isTablet: false, isOpen: false, expected: { containerLeftMargin: 56, device: 'monitor', state: false, props: { backdrop: false, open: false, showItemIcon: true, showItemText: false, variant: 'permanent' } } },
+      { isMonitor: true, isTablet: true, isOpen: true, expected: { containerLeftMargin: 176, device: 'monitor', state: true, props: { backdrop: false, open: true, showItemIcon: true, showItemText: true, variant: 'permanent' } } },
     ];
 
     testCases.forEach(({ isMonitor, isTablet, isOpen, expected }) => {
@@ -74,6 +76,7 @@ describe('reduceNavigationDrawerState', () => {
         props: {
           backdrop: false,
           open: false,
+          showItemIcon: true,
           showItemText: false,
           variant: 'permanent',
         },
@@ -99,6 +102,7 @@ describe('reduceNavigationDrawerState', () => {
         props: {
           backdrop: false,
           open: true,
+          showItemIcon: true,
           showItemText: true,
           variant: 'permanent',
         },
@@ -116,6 +120,7 @@ describe('reduceNavigationDrawerState', () => {
         props: {
           backdrop: false,
           open: true,
+          showItemIcon: true,
           showItemText: true,
           variant: 'permanent',
         },

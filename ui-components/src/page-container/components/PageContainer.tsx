@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect } from "react";
+import { PropsWithChildren, useEffect, useRef } from "react";
 import {
   NavigationDrawer,
   NavigationDrawerProps,
@@ -6,6 +6,9 @@ import {
   useNavigationDrawer,
 } from "../../navigation-drawer";
 import { AppHeader, AppHeaderProps } from "../../app-header";
+import { useElementHeight } from "../../common/use-element-height";
+import { Content } from "./PageContainer.style";
+import { NavigationDrawerBackdrop } from "../../navigation-drawer/components/NavigationDrawerBackdrop";
 
 type PageContainerProps = PropsWithChildren & {
   appHeaderProps?: Partial<AppHeaderProps>;
@@ -17,34 +20,38 @@ const Wrapper = ({
   children,
 }: PageContainerProps) => {
   const {
-    appHeaderHeight,
-    appHeaderRef,
     containerLeftMargin,
+    setAppBarHeight,
     setState,
     state,
   } = useNavigationDrawer();
   const handleToggleMenu = () => setState(!state);
 
-  useEffect(() => setState(true), [setState]);
+  const appHeaderRef = useRef<HTMLDivElement>(null);
+  const appHeaderHeight = useElementHeight(appHeaderRef);
+
+  useEffect(() => {
+    setAppBarHeight(appHeaderHeight);
+  }, [appHeaderHeight, setAppBarHeight]);
 
   return (
     <>
+      <NavigationDrawerBackdrop />
       <AppHeader
-        title="Navigation Drawer Example"
         toggleMenu={handleToggleMenu}
         appBarProps={{
           ...appHeaderProps,
-          ref: appHeaderRef
+          ref: appHeaderRef,
         }}
+        {...appHeaderProps}
       />
       <NavigationDrawer />
-      <div style={{
-        marginTop: `${appHeaderHeight}px`,
-        marginLeft: `${containerLeftMargin}px`,
-        transition: 'all 0.3s ease-in-out',
-      }}>
+      <Content
+        appHeaderHeight={appHeaderHeight}
+        containerLeftMargin={containerLeftMargin}
+      >
         {children}
-      </div>
+      </Content>
     </>
   );
 };

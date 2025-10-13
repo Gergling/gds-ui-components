@@ -7,32 +7,54 @@ import {
 } from "@mui/material"
 import { NAVIGATION_DRAWER_ICON_WIDTH, NAVIGATION_DRAWER_TEXT_MARGIN, NAVIGATION_DRAWER_TEXT_WIDTH } from "../constants"
 import { useNavigationDrawer } from "../context";
+import { useAppTheme } from "../../theme";
+import { useMemo } from "react";
 
 export const NavigationDrawerList = () => {
+  const { theme: { transitions: { create } } } = useAppTheme();
   const {
     items,
     props: {
+      showItemIcon,
       showItemText,
     },
   } = useNavigationDrawer();
+
+  const {
+    iconWidth,
+    textMargin,
+  } = useMemo(
+    () => ({
+      iconWidth: showItemIcon ? `${NAVIGATION_DRAWER_ICON_WIDTH}px` : 0,
+      textMargin: showItemIcon ? `${NAVIGATION_DRAWER_TEXT_MARGIN}px` : 0,
+    }),
+    [showItemIcon],
+  );
+  const textWidth = useMemo(
+    () => showItemText ? `${NAVIGATION_DRAWER_TEXT_WIDTH}px` : 0,
+    [showItemText],
+  );
   return (
     <List>
       {items.map(({ icon, onClick, text }) => (
         <ListItem key={text} disablePadding>
           <ListItemButton onClick={onClick} sx={{
             paddingRight: 0,
-            paddingLeft: `${NAVIGATION_DRAWER_TEXT_MARGIN}px`,
+            paddingLeft: textMargin,
+            transition: create('padding-left'),
           }}>
             <ListItemIcon sx={{
-              minWidth: `${NAVIGATION_DRAWER_ICON_WIDTH}px`,
+              minWidth: iconWidth,
+              transition: create(['width', 'min-width']),
+              width: iconWidth,
             }}>
               {icon}
             </ListItemIcon>
             <ListItemText primary={text} sx={{
-              marginLeft: `${NAVIGATION_DRAWER_TEXT_MARGIN}px`,
-              width: showItemText ? `${NAVIGATION_DRAWER_TEXT_WIDTH}px` : 0,
+              marginLeft: textMargin,
+              width: textWidth,
               whiteSpace: 'nowrap',
-              transition: 'all 0.3s ease-in-out',
+              transition: create(['width', 'margin-left']),
             }} />
           </ListItemButton>
         </ListItem>

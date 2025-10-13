@@ -30,17 +30,19 @@ export const reduceNavigationDrawerState = (
 
   // Permanent always shows the drawer, and temporary only shows it when open
   // and provides an overlay.
+  // TODO: Junking?
   const variant: NavigationDrawerVariant = isNotMobile ? 'permanent' : 'temporary';
-
-  // This is to explicitly switch out of rail mode, so when it's cleared we would just have the icon width.
-  const showItemText = !!state;
 
   // The drawer "open" state is deliberately abstracted because what
   // constitutes "open" in our usage differs from the Drawer component property.
   const open = state;
 
+  // This is to explicitly switch out of rail mode, so when it's cleared we would just have the icon width.
+  const showItemText = !!state;
+  const showItemIcon = isNotMobile || state;
+
   // This is for including the backdrop when the drawer is open but the device is not monitor.
-  const backdrop = state && device === 'tablet';
+  const backdrop = state && device !== 'monitor';
 
   // This is for adding to the left side of the page container.
   const isRailWidthAdded = isNotMobile;
@@ -51,7 +53,7 @@ export const reduceNavigationDrawerState = (
   const containerLeftMargin = railWidth + textWidth;
 
   // These properties apply directly to a component in some way.
-  const newProps = { backdrop, open, showItemText, variant };
+  const newProps = { backdrop, open, showItemIcon, showItemText, variant };
 
   return {
     containerLeftMargin,

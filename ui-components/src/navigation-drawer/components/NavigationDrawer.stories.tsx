@@ -1,4 +1,3 @@
-import { Backdrop } from '@mui/material';
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from 'storybook/actions';
 import { NavigationDrawer } from './NavigationDrawer';
@@ -9,6 +8,7 @@ import { NavigationDrawerAppBarHTMLElement, NavigationDrawerItem } from '../type
 import { Home as HomeIcon, List as ListIcon } from '@mui/icons-material';
 import { ThemeSwitcher } from '../../theme';
 import { useElementHeight } from '../../common/use-element-height';
+import { NavigationDrawerBackdrop } from './NavigationDrawerBackdrop';
 
 const items: NavigationDrawerItem[] = [
   {
@@ -26,9 +26,6 @@ const items: NavigationDrawerItem[] = [
 const Wrapper = () => {
   const {
     containerLeftMargin,
-    props: {
-      backdrop,
-    },
     setAppBarHeight,
     setState,
     state,
@@ -45,14 +42,7 @@ const Wrapper = () => {
 
   return (
     <>
-      <Backdrop
-        sx={(theme) => ({
-          color: theme.colors.primary.on,
-          zIndex: theme.zIndex.drawer
-        })}
-        open={backdrop}
-        onClick={() => setState(false)}
-      />
+      <NavigationDrawerBackdrop />
       <AppHeader
         title="Navigation Drawer Example"
         toggleMenu={handleToggleMenu}
