@@ -1,6 +1,6 @@
 # Project GDS: Gergling Design System
 [![Unit Tests](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/gergling/gds-ui-components/main/status/unit-tests.json)](https://github.com/gergling/gds-ui-components/actions/workflows/deploy.yml)
-[![npm version](https://img.shields.io/npm/v/ui-components.svg)](https://www.npmjs.com/package/ui-components)
+[![npm version](https://img.shields.io/npm/v/@gergling/ui-components.svg)](https://www.npmjs.com/package/@gergling/ui-components)
 
 This project is intended to build a complete design system for all of my personal projects, thus unifying my vanity projects more literally.
 
