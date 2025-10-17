@@ -1,6 +1,7 @@
 export * from './app-header';
 export * from './blog';
 export * from './components';
+export * from './common';
 export * from './metric-chip';
 export * from './page-container';
 export * from './styles';
