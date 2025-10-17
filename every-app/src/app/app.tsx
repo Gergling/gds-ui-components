@@ -7,7 +7,7 @@ import {
   BlogSummaryProps,
   MetricChip,
   PageContainer,
-  useAppTheme,
+  useTheme,
 } from '@gergling/ui-components-local';
 import { NavigationDrawerItem } from '@gergling/ui-components-local/navigation-drawer';
 import '@fontsource-variable/bodoni-moda-sc';
@@ -19,7 +19,7 @@ const StyledApp = styled.div`
 `;
 
 const ThemeDisplay = () => {
-  const { theme: { colors } } = useAppTheme();
+  const { theme: { colors } } = useTheme();
   return (
     <>
       <div style={{ backgroundColor: colors.primary.main, color: colors.primary.on }}>Primary: {colors.primary.main}</div>
