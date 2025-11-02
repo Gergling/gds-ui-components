@@ -1,11 +1,30 @@
 import { Preview } from '@storybook/react';
 import {
   AppThemeProvider,
-  ThemeSwitcher,
 } from '../src/theme';
-import { ErrorBoundary } from 'react-error-boundary';
 
 import { MINIMAL_VIEWPORTS } from 'storybook/viewport';
+import { ThemedPreview } from './components/ThemedPreview';
+import { GlobalTypes } from 'storybook/internal/csf';
+
+export const globalTypes: GlobalTypes = {
+  themeMode: {
+    name: 'Theme Mode',
+    description: 'Global theme for components',
+    defaultValue: 'light',
+    toolbar: {
+      icon: 'mirror',
+      items: [
+        { value: 'light', title: 'Light Mode', icon: 'sun' },
+        { value: 'dark', title: 'Dark Mode', icon: 'moon' },
+      ],
+    },
+  },
+};
+
+export const globals = {
+  themeMode: 'light', // Default state
+};
 
 const preview: Preview = {
   parameters: {
@@ -25,24 +44,16 @@ const preview: Preview = {
     }
   },
   decorators: [
-    (Story) => (
-      <AppThemeProvider>
-        <ErrorBoundary fallback={<div>Something bad has happened.</div>}>
-          <div style={{
-            position: 'fixed',
-            top: '0',
-            left: '0',
-          }}>
-            <ThemeSwitcher />
-          </div>
-          <div style={{
-            marginTop: '50px',
-          }}>
+    (Story, context) => {
+      const { globals } = context;
+      return (
+        <AppThemeProvider>
+          <ThemedPreview globals={globals}>
             <Story />
-          </div>
-        </ErrorBoundary>
-      </AppThemeProvider>
-    ),
+          </ThemedPreview>
+        </AppThemeProvider>
+      );
+    },
   ],
 };
 

@@ -29,11 +29,11 @@ const articles: BlogListProps['articles'] = [
     onClick: action('you-have-no-friends-only-the-chosen-authority-figure-cares'),
     subheader: 'Published 13 minutes ago',
     title: <div style={{
-      textOverflow: 'ellipsis',
-      overflow: 'hidden',
-      whiteSpace: 'nowrap',
-      width: '12rem',
-      height: '4rem',
+      // textOverflow: 'ellipsis',
+      // overflow: 'hidden',
+      // whiteSpace: 'nowrap',
+      // width: '12rem',
+      // height: '4rem',
     }}>How to know if your friends don't like you</div>,
   },
   {

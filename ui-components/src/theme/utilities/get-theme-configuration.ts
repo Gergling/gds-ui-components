@@ -34,7 +34,8 @@ const getSemanticColorConfiguration = (
 export const getThemeConfiguration = (
   options: WrapperArgs
 ): Theme => {
-  const initialPalette = createTheme().palette;
+  const mode = options.palette?.mode || 'light';
+  const initialPalette = createTheme({ palette: { mode } }).palette;
   const colors = {
     ...[...SEMANTIC_NAMES_MESSAGE, ...SEMANTIC_NAMES_SYSTEM].reduce(
       (
