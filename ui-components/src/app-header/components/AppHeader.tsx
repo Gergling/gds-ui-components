@@ -3,7 +3,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 export interface AppHeaderProps {
   title?: string;
-  toggleMenu: () => void;
+  toggleMenu?: () => void;
   appBarProps?: AppBarProps;
 }
 

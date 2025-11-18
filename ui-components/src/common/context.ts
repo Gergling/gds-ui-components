@@ -8,6 +8,9 @@ type ProviderProps<T extends object | undefined = undefined> = T & {
   children: React.ReactNode;
 };
 
+// TODO: Provider should *always* take children with no exceptions.
+// Unfortunately, it would seem there occurs a type error when the factory props are not provided.
+// Perhaps it needs to be set to "never" or equivalent.
 export const contextFactory = <T, U extends object | undefined = undefined>(
   valueFactory: (props: U) => T,
   errorId: string,

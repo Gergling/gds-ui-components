@@ -17,11 +17,7 @@ export const ThemedPreview = <T,>({
 
   return (
     <ErrorBoundary fallback={<div>Something bad has happened.</div>}>
-      <div style={{
-        marginTop: '50px',
-      }}>
-        {children}
-      </div>
+      {children}
     </ErrorBoundary>
   );
 };
