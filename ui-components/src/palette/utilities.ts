@@ -1,5 +1,5 @@
 import { Theme } from "@mui/material/styles";
-import { DisplayColor } from "./types";
+import { DisplayColor, DisplaySemanticColor } from "./types";
 import { capitaliseFirstLetter } from "../common/utilities";
 import { SEMANTIC_NAMES_MESSAGE, SEMANTIC_NAMES_SYSTEM } from "../theme";
 
@@ -49,12 +49,31 @@ const getGroupDisplayColors = (
   [] as DisplayColor[]
 );
 
+const mapSemanticColorsFactory = (
+  theme: Theme
+) => (
+  name: keyof Theme['colors'],
+): DisplaySemanticColor => {
+  const semanticColor = theme.colors[name];
+  const capitalisedLabel = capitaliseFirstLetter(name);
+  return {
+    semanticColor,
+    label: capitalisedLabel,
+  };
+};
+
+
 export const getColours = (theme: Theme): {
   message: DisplayColor[];
   system: DisplayColor[];
   grey: DisplayColor[];
+  semantics: DisplaySemanticColor[];
 } => ({
   message: getGroupDisplayColors(theme, [...SEMANTIC_NAMES_MESSAGE]),
   system: getGroupDisplayColors(theme, [...SEMANTIC_NAMES_SYSTEM]),
   grey: Object.entries(theme.palette.grey).map(([label, color]) => ({ color, label })),
+  semantics: [
+    ...SEMANTIC_NAMES_SYSTEM,
+    ...SEMANTIC_NAMES_MESSAGE,
+  ].map(mapSemanticColorsFactory(theme)),
 });

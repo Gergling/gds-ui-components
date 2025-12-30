@@ -1,6 +1,6 @@
-import { getThemeConfiguration } from "../../utilities";
+import { getThemeConfiguration } from "../../../utilities";
 
-export const zeroGDS = getThemeConfiguration({
+export const zeroGDSLight = getThemeConfiguration({
   colors: {
     primary: {
       main: '#A31800',

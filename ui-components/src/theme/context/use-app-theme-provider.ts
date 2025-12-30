@@ -4,8 +4,8 @@ import { useColorScheme } from "@mui/material";
 import { appThemeStore } from "../utilities";
 
 export const useAppThemeProvider = () => {
-  const value = appThemeStore();
-  const { setTheme, theme } = value;
+  const providerValue = appThemeStore();
+  const { setTheme, theme } = providerValue;
   const { mode, systemMode } = useColorScheme();
 
   const globalStyles = useMemo(() => css`
@@ -36,7 +36,7 @@ export const useAppThemeProvider = () => {
 
   return {
     globalStyles,
-    providerValue: value,
+    providerValue,
     theme,
   };
 };

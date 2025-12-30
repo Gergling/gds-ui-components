@@ -1,6 +1,7 @@
 import { createTheme, Theme } from "@mui/material";
 import {
-  zeroGDS,
+  zeroGDSDark,
+  zeroGDSLight,
   zeroGRXDark,
   zeroGRXLight
 } from "../packages/zero";
@@ -56,7 +57,8 @@ const designSystem = DESIGN_SYSTEM_VERSIONS.reduce(
   {
     zero: {
       gds: {
-        light: zeroGDS,
+        dark: zeroGDSDark,
+        light: zeroGDSLight,
       },
       grx: {
         dark: zeroGRXDark,

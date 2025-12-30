@@ -35,6 +35,7 @@
     "@fontsource-variable/raleway": "^5.2.7",
     "@mui/icons-material": "^7.3.2",
     "@mui/material": "^7.3.2",
+    "colord": "^2.9.3",
     "nx": "latest",
     "react": "19.1.1",
     "react-dom": "19.1.1"

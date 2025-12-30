@@ -8,9 +8,21 @@ import { ThemedPreview } from './components/ThemedPreview';
 import { GlobalTypes } from 'storybook/internal/csf';
 
 export const globalTypes: GlobalTypes = {
+  themeProject: {
+    name: 'Theme Name',
+    description: 'Global chosen theme for components',
+    defaultValue: 'grx',
+    toolbar: {
+      icon: 'mirror',
+      items: [
+        { value: 'gds', title: 'GDS', left: 'GDS' },
+        { value: 'grx', title: 'GRX', left: 'GRX' },
+      ],
+    },
+  },
   themeMode: {
     name: 'Theme Mode',
-    description: 'Global theme for components',
+    description: 'Global theme mode for components',
     defaultValue: 'light',
     toolbar: {
       icon: 'mirror',

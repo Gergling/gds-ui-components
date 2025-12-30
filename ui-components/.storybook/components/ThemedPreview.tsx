@@ -9,18 +9,25 @@ export const ThemedPreview = <T,>({
 }: {
   globals: StoryContext<T>['globals'];
 } & PropsWithChildren) => {
-  const { setTheme } = useTheme();
+  const { theme: { palette: { background } }, setTheme } = useTheme();
 
   useEffect(() => {
-    setTheme({ mode: globals.themeMode });
-  }, [globals.themeMode, setTheme]);
+    setTheme({
+      mode: globals.themeMode,
+      project: globals.themeProject,
+    });
+  }, [globals.themeMode, globals.themeProject, setTheme]);
 
   return (
-    <ErrorBoundary fallback={<div>Something bad has happened.</div>}>
-      <div style={{
-        marginTop: '50px',
-      }}>
-        {children}
+    <ErrorBoundary fallback={<div style={{
+      color: 'white', backgroundColor: '#800', fontWeight: 'bold', padding: '10px'
+    }}>Something bad has happened.</div>}>
+      <div style={{ backgroundColor: background.default }}>
+        <div style={{
+          marginTop: '50px',
+        }}>
+          {children}
+        </div>
       </div>
     </ErrorBoundary>
   );

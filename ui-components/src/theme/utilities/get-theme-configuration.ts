@@ -1,6 +1,10 @@
+import { colord, extend } from "colord";
+import a11yPlugin from "colord/plugins/a11y";
 import { createTheme, Theme } from "@mui/material";
 import { DeepPartial, SemanticColorGroup, SemanticColors, ThemeExtension } from "../types";
 import { SEMANTIC_NAMES_MESSAGE, SEMANTIC_NAMES_SYSTEM } from "../constants";
+
+extend([a11yPlugin]);
 
 type WrapperArgs = Parameters<typeof createTheme>[0] & DeepPartial<ThemeExtension>;
 
@@ -35,7 +39,9 @@ export const getThemeConfiguration = (
   options: WrapperArgs
 ): Theme => {
   const mode = options.palette?.mode || 'light';
-  const initialPalette = createTheme({ palette: { mode } }).palette;
+  const initialTheme = createTheme({ palette: { ...options.palette, mode } });
+  const { palette: initialPalette } = initialTheme;
+
   const colors = {
     ...[...SEMANTIC_NAMES_MESSAGE, ...SEMANTIC_NAMES_SYSTEM].reduce(
       (
@@ -45,12 +51,13 @@ export const getThemeConfiguration = (
         const { contrastText, main } = semanticName === 'tertiary'
           ? { contrastText: 'black', main: 'white' }
           : initialPalette[semanticName];
+        const container = {
+          main: colord(main).darken(0.2).toHex(),
+          on: colord(contrastText).darken(0.2).toHex(),
+        };
         return {
           ...colors,
-          [semanticName]: { main, on: contrastText, container: {
-            main: WARNING_PINK,
-            on: WARNING_PINK,
-          } },
+          [semanticName]: { main, on: contrastText, container },
         };
       },
       {} as SemanticColors

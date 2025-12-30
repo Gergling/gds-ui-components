@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { Grid } from "@mui/material";
+import { TonalContrast } from "../../theme/types";
 
 export const StyledColorGrid = styled(Grid)`
   padding: 1rem 0 0 0;
@@ -20,9 +21,9 @@ export const ColorSwatch = styled.div<{ color: string }>`
 // TODO: Contents should be inline.
 export const ColorDetails = styled.div`
   padding: 8px;
-  `;
-  // background-color: ${(props) => props.theme.colors.surface};
-  // color: ${(props) => props.theme.colors.onSurface};
+  background-color: hsl(0, 0%, 20%);
+  color: hsl(0, 0%, 80%);
+`;
 
 export const ColorName = styled.div`
   font-weight: bold;
@@ -32,4 +33,11 @@ export const ColorName = styled.div`
 export const ColorValue = styled.div`
   font-size: 12px;
   word-break: break-all;
+`;
+
+export const StyledSemantic = styled.div<{ tonalContrast: TonalContrast; }>`
+  background-color: ${(props) => props.tonalContrast.main};
+  border-radius: 8px;
+  color: ${(props) => props.tonalContrast.on};
+  padding: 1rem;
 `;
