@@ -1,8 +1,8 @@
 import { Temporal } from "@js-temporal/polyfill";
-import { Milestone, MilestoneApiProps, MilestoneFetchProps } from "../types";
+import { GroupedMilestones, GroupedMilestonesMapping, Milestone, MilestoneApiProps, MilestoneFetchProps } from "../types";
 import { extractStartDate } from "./extract-start-date";
 import { UseQueryResult } from "@tanstack/react-query";
-import { MILESTONE_GROUP_KEYS } from "../config";
+import { MILESTONE_GROUP_KEYS, MILESTONE_GROUPS, MilestoneGroup } from "../config";
 
 const extractPlainDate = (date: string | null) => {
   if (!date) return;
@@ -138,23 +138,11 @@ const compareOptionalDates = (
   return Temporal.PlainDate.compare(a, b);
 };
 
-export const transformMilestoneResults = (
-  result: UseQueryResult<MilestoneFetchProps, Error>[],
-  relative: Temporal.PlainDate
-) => result.reduce<Milestone[]>(
-  (acc, { data }) => {
-    if (data) {
-      const milestone = transformMilestoneFetchData(data, relative);
-      return [...acc, ...milestone];
-    }
-    return acc;
-  },
-  []
-).sort((a, b) => {
+const compareMilestones = (a: Milestone, b: Milestone) => {
   // Ascending is a - b
-  // Group: Overdue -> Current -> Future -> Closed
-  const groupComparison = MILESTONE_GROUP_KEYS[a.group] - MILESTONE_GROUP_KEYS[b.group];
-  if (groupComparison !== 0) return groupComparison;
+  // // Group: Overdue -> Current -> Future -> Closed
+  // const groupComparison = MILESTONE_GROUP_KEYS[a.group] - MILESTONE_GROUP_KEYS[b.group];
+  // if (groupComparison !== 0) return groupComparison;
 
   // Due date: ascending -> undefined
   const dueComparison = compareOptionalDates(a.end, b.end);
@@ -170,4 +158,82 @@ export const transformMilestoneResults = (
 
   // Title: ascending
   return a.title.localeCompare(b.title);
-});
+};
+
+const groupMilestonesFactory = (
+  relative: Temporal.PlainDate
+) => (
+  groups: GroupedMilestonesMapping,
+  { data }: UseQueryResult<MilestoneFetchProps, Error>,
+): GroupedMilestonesMapping => {
+  if (!data) return groups;
+
+  console.log('data', data);
+
+  const milestones = transformMilestoneFetchData(data, relative);
+
+  return milestones.reduce(
+    (groups, milestone): GroupedMilestonesMapping => ({
+      ...groups,
+      [milestone.group]: [
+        ...groups[milestone.group],
+        milestone,
+      ]
+    }),
+    groups,
+  );
+};
+
+export const transformMilestoneResults = (
+  results: UseQueryResult<MilestoneFetchProps, Error>[],
+  relative: Temporal.PlainDate
+) => {
+  const initialMap = MILESTONE_GROUPS.reduce(
+    (groups, key) => ({
+      ...groups,
+      [key]: [],
+    }),
+    {} as GroupedMilestonesMapping,
+  );
+  console.log('initial', initialMap)
+  const groupMap = results.reduce(groupMilestonesFactory(relative), initialMap);
+  console.log('group', groupMap)
+  const groups = Object.entries(groupMap).map(([group, milestones]): GroupedMilestones => ({
+    group: group as MilestoneGroup,
+    milestones: milestones.sort(compareMilestones),
+  }));
+  console.log('groups', groups)
+  return groups;
+};
+// export const transformMilestoneResults = (
+//   results: UseQueryResult<MilestoneFetchProps, Error>[],
+//   relative: Temporal.PlainDate
+// ) => results.reduce<Milestone[]>((acc, { data }) => {
+//   if (data) {
+//     const milestones = transformMilestoneFetchData(data, relative);
+//     return [...acc, ...milestones];
+//   }
+//   return acc;
+// },
+// []
+// ).sort((a, b) => {
+//   // Ascending is a - b
+//   // Group: Overdue -> Current -> Future -> Closed
+//   const groupComparison = MILESTONE_GROUP_KEYS[a.group] - MILESTONE_GROUP_KEYS[b.group];
+//   if (groupComparison !== 0) return groupComparison;
+
+//   // Due date: ascending -> undefined
+//   const dueComparison = compareOptionalDates(a.end, b.end);
+//   if (dueComparison !== 0) return dueComparison;
+
+//   // Start date: ascending -> undefined
+//   const startComparison = compareOptionalDates(a.start, b.start);
+//   if (startComparison !== 0) return startComparison;
+
+//   // Repo: ascending
+//   const repoComparison = a.repo.localeCompare(b.repo);
+//   if (repoComparison !== 0) return repoComparison;
+
+//   // Title: ascending
+//   return a.title.localeCompare(b.title);
+// });

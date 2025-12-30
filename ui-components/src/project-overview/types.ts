@@ -1,4 +1,5 @@
 import { Temporal } from "@js-temporal/polyfill";
+import { MilestoneGroup } from "./config";
 
 export type Milestone = {
   repo: string;
@@ -9,7 +10,7 @@ export type Milestone = {
   closed: number;
   start?: Temporal.PlainDate;
   end?: Temporal.PlainDate;
-  group: 'overdue' | 'current' | 'future' | 'closed';
+  group: MilestoneGroup;
   warning: 'none' | 'start' | 'due';
   progress: {
     days?: {
@@ -50,4 +51,13 @@ export type MilestoneApiProps = {
 export type MilestoneFetchProps = {
   repo: string;
   milestones: MilestoneApiProps[];
+};
+
+export type GroupedMilestonesMapping = {
+  [key in MilestoneGroup]: Milestone[];
+};
+
+export type GroupedMilestones = {
+  group: MilestoneGroup;
+  milestones: Milestone[];
 };

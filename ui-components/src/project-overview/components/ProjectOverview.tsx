@@ -28,8 +28,9 @@ import {
 import { AppHeader } from '../../app-header';
 import { GITHUB_DESCRIPTION_DATE_REGEX } from '../constants';
 import { useMilestones } from '../hooks/use-milestones';
-import { Milestone } from '../types';
-import { StyledDateDisplay } from './ProjectOverview.style';
+import { GroupedMilestones, Milestone } from '../types';
+import { StyledDateDisplay, StyledMilestoneDateRange } from './ProjectOverview.style';
+import { MilestoneGroup } from '../config';
 
 const localStoragePersister = createAsyncStoragePersister({
   storage: window.localStorage,
@@ -55,7 +56,7 @@ const queryClient = new QueryClient({
 const MilestoneTitle = ({ title }: Milestone) => {
   return <Typography variant="h6">{title}</Typography>;
 };
-const MilestoneDetails = ({ description, warning }: Milestone) => {
+const MilestoneDetails = ({ description, progress, open, warning }: Milestone) => {
   const warningText = useMemo(() => {
     if (warning === 'due') return 'This milestone has a start date but no due date.';
     if (warning === 'start') return `
@@ -64,30 +65,13 @@ const MilestoneDetails = ({ description, warning }: Milestone) => {
     `;
     return '';
   }, [warning]);
-  return <>
-    <div>{description}</div>
-    {warning !== 'none' && <Alert severity="warning">{warningText}</Alert>}
-  </>;
-};
 
-const getMilestoneProgressColour = (progress: Milestone['progress']): LinearProgressProps['color'] => {
-  if (progress.issues === 100) return 'success';
-  if (progress.days !== undefined) {
-    if (progress.issues > progress.days.proportion) return 'success';
-    return 'error';
-  }
-  return 'info';
-};
-
-const MilestoneProgress = ({ open, progress }: Milestone) => {
   const {
-    color,
     daysOfIssues,
     relativeDescription,
     remainingDays,
   } = useMemo(
     () => {
-      const color = getMilestoneProgressColour(progress);
       if (progress.days !== undefined) {
         const { milestone, relative } = progress.days;
         const remainingIssuesFraction = 1 - progress.issues;
@@ -104,14 +88,12 @@ const MilestoneProgress = ({ open, progress }: Milestone) => {
           ${catchUpIssues} issues (${catchUp}%) need completion to catch up.
         `;
         return {
-          color,
           daysOfIssues,
           relativeDescription,
           remainingDays,
         };
       }
       return {
-        color,
         daysOfIssues: undefined,
         relativeDescription: '',
         remainingDays: undefined,
@@ -119,10 +101,34 @@ const MilestoneProgress = ({ open, progress }: Milestone) => {
     },
     [open, progress]
   );
+
+  return <>
+    {warning !== 'none' && <Alert severity="warning">{warningText}</Alert>}
+    {progress.days && <div>There are {daysOfIssues} days of work to complete in {remainingDays} days. {relativeDescription}</div>}
+    <div>{description}</div>
+  </>;
+};
+
+
+const getMilestoneProgressColour = (progress: Milestone['progress']): LinearProgressProps['color'] => {
+  if (progress.issues === 100) return 'success';
+  if (progress.days !== undefined) {
+    if (progress.issues > progress.days.proportion) return 'success';
+    return 'error';
+  }
+  return 'info';
+};
+
+const MilestoneProgress = ({ progress }: Milestone) => {
+  const color = useMemo(
+    () => getMilestoneProgressColour(progress),
+    [progress]
+  );
+  const isNotInProgress = useMemo(() => progress.issues === 0 && progress.days === undefined, [progress]);
+  if (isNotInProgress) return <>Milestone is not in progress</>;
   return <>
     {progress.days && <LinearProgress variant="determinate" color='info' value={progress.days.proportion * 100} />}
     <LinearProgress variant="determinate" color={color} value={progress.issues * 100} />
-    {progress.days && <div>There are {daysOfIssues} days of work to complete in {remainingDays} days. {relativeDescription}</div>}
   </>;
 };
 
@@ -142,9 +148,9 @@ const DisplayDate = ({ date }: { date?: Temporal.PlainDate; }) => {
 };
 
 const MilestoneDateRange = (milestone: Milestone) => {
-  return <>
+  return <StyledMilestoneDateRange>
     <DisplayDate date={milestone?.start} /> - <DisplayDate date={milestone?.end} />
-  </>;
+  </StyledMilestoneDateRange>;
 };
 
 const MilestoneRow = (milestone: Milestone) => {
@@ -179,15 +185,37 @@ const MilestoneRow = (milestone: Milestone) => {
   </>;
 };
 
+const MilestoneRowGroup = ({
+  group,
+  milestones
+}: GroupedMilestones) => {
+  const readableGroup = useMemo(() => group.toUpperCase(), [group]);
+  return <>
+    <TableRow>
+      <TableCell colSpan={4}>{readableGroup}</TableCell>
+    </TableRow>
+    {milestones.map((milestone) => <MilestoneRow key={milestone.id} {...milestone} />)}
+  </>;
+};
+
 const Content = () => {
   const { milestones } = useMilestones();
+  const { empty, grouped } = useMemo(() => milestones.reduce(({
+    grouped,
+    empty,
+  }, { group, milestones }) => {
+    if (milestones.length === 0) return {
+      empty: [...empty, group],
+      grouped,
+    };
+    return {
+      empty,
+      grouped: [...grouped, { group, milestones }],
+    };
+  }, { empty: [], grouped: [] } as { empty: MilestoneGroup[], grouped: GroupedMilestones[] }), [milestones]);
   return <>
     <AppHeader title="Milestone Overview" appBarProps={{ position: 'relative' }} />
     <List>
-      <ListItem>
-        <ListItemIcon><HourglassBottom /></ListItemIcon>
-        <ListItemText primary="Grouping" />
-      </ListItem>
       <ListItem>
         <ListItemIcon><HourglassBottom /></ListItemIcon>
         <ListItemText primary="Column Width Limits" />
@@ -195,7 +223,7 @@ const Content = () => {
     </List>
     <TableContainer>
       <Table>
-        {milestones.map((milestone) => <MilestoneRow key={milestone.id} {...milestone} />)}
+        {grouped.map((milestoneGroup) => <MilestoneRowGroup key={milestoneGroup.group} {...milestoneGroup} />)}
       </Table>
     </TableContainer>
   </>;
