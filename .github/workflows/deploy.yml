@@ -66,6 +66,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+      id-token: write
     if: needs.tag.outputs.tag-created == 'true'
     steps:
       - name: Check out repository
