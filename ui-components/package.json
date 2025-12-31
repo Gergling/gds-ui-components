@@ -1,10 +1,13 @@
 {
   "name": "@gergling/ui-components",
-  "version": "0.1.22",
+  "version": "0.1.23",
   "private": false,
   "type": "module",
   "main": "./index.js",
   "types": "./index.d.ts",
+  "repository": {
+    "url": "https://github.com/Gergling/gds-ui-components"
+  },
   "publishConfig": {
     "access": "public",
     "provenance": true
