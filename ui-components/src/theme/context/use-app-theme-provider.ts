@@ -5,7 +5,7 @@ import { appThemeStore } from "../utilities";
 
 export const useAppThemeProvider = () => {
   const providerValue = appThemeStore();
-  const { setTheme, theme } = providerValue;
+  const { initialise, setTheme, theme } = providerValue;
   const { mode, systemMode } = useColorScheme();
 
   const globalStyles = useMemo(() => css`
@@ -36,6 +36,7 @@ export const useAppThemeProvider = () => {
 
   return {
     globalStyles,
+    initialise,
     providerValue,
     theme,
   };

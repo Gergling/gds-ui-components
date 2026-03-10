@@ -7,6 +7,7 @@ import {
   BlogSummaryProps,
   MetricChip,
   PageContainer,
+  Typography,
   useTheme,
 } from '@gergling/ui-components-local';
 import { NavigationDrawerItem } from '@gergling/ui-components-local/navigation-drawer';
@@ -70,7 +71,14 @@ export function App() {
     },
   ];
   return (
-    <AppThemeProvider>
+    <AppThemeProvider themeOverrides={{
+      typography: {
+        h6: {
+          color: 'red',
+          fontSize: '1rem',
+        }
+      }
+    }}>
       <StyledApp>
         <PageContainer
           appHeaderProps={{
@@ -103,6 +111,7 @@ export function App() {
               <Link to="/page-2">Page 2</Link>
             </li>
           </ul>
+          <Typography variant='h6'>Typography/H6 got a colour override.</Typography>
         </div>
         <Routes>
           <Route

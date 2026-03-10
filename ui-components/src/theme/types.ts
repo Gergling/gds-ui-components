@@ -1,4 +1,4 @@
-import { Theme } from "@mui/material/styles";
+import { Theme, ThemeOptions } from "@mui/material/styles";
 import {
   DESIGN_SYSTEM_PROJECTS,
   DESIGN_SYSTEM_VERSIONS,
@@ -54,10 +54,13 @@ type AppThemeState = {
 };
 export type SetThemeProps = Partial<AppThemeState>;
 
+export type AppThemeStateOverride = SetThemeProps & {
+  themeOverrides?: ThemeOptions;
+};
+
 export type AppTheme = AppThemeState & {
-  version: VersionThemeName;
-  project: ProjectThemeName;
-  mode: ModeThemeName;
   theme: Theme;
+  themeOverrides?: ThemeOptions;
+  initialise: (props: AppThemeStateOverride) => void;
   setTheme: (props: SetThemeProps) => void;
 };
