@@ -13,7 +13,7 @@ import {
 
 type MetricChipColorDefaultProps = {
   icon?: ChipProps['icon'];
-  value: string;
+  value: ChipProps['label'];
 };
 
 const MetricChipColorDefault = ({
