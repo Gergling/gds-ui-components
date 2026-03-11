@@ -29,8 +29,8 @@ export const NoIcon: Story = {
   name: 'No Icon',
   args: {
     color: 'default',
-    label: 'Label',
-    value: 'Value',
+    label: <>Label</>,
+    value: <>Value</>,
   },
 };
 
@@ -38,8 +38,8 @@ export const WithIcon: Story = {
   name: 'With Icon',
   args: {
     color: 'default',
-    label: 'Label',
-    value: 'Value',
+    label: <>Label</>,
+    value: <>Value</>,
     icon: <ThumbUp fontSize='small' />,
   },
 };

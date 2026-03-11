@@ -1,6 +1,6 @@
 import { ChipProps } from "@mui/material";
 import { useMemo } from "react";
-import { useAppTheme } from "../../theme";
+import { useTheme } from "../../theme";
 import {
   StyledMetricChipContainer,
   StyledMetricChipLabel,
@@ -22,7 +22,7 @@ const MetricChipColorDefault = ({
 }: MetricChipColorDefaultProps) => {
   const {
     theme: { palette: { action, getContrastText } },
-  } = useAppTheme();
+  } = useTheme();
   const backgroundColor = useMemo(() => action.active, [action]);
   const foregroundColor = useMemo(() => getContrastText(action.active), [action, getContrastText]);
 
@@ -77,7 +77,7 @@ const MetricChipColor = ({
 };
 
 type MetricChipProps = MetricChipColorProps & {
-  label: string;
+  label: ChipProps['label'];
 };
 
 export const MetricChip = ({
