@@ -1,11 +1,10 @@
-import { Theme, ThemeOptions } from "@mui/material/styles";
+import { PaletteMode, Theme, ThemeOptions } from "@mui/material/styles";
 import {
   DESIGN_SYSTEM_PROJECTS,
   DESIGN_SYSTEM_VERSIONS,
   SEMANTIC_NAMES_MESSAGE,
   SEMANTIC_NAMES_SYSTEM
 } from "./constants";
-import { DefaultColorScheme } from "@mui/material/styles/createThemeWithVars";
 
 export type DeepPartial<T> = T extends object ? {
   [P in keyof T]?: DeepPartial<T[P]>;
@@ -28,7 +27,7 @@ export interface ThemeExtension {
 
 export type VersionThemeName = typeof DESIGN_SYSTEM_VERSIONS[number];
 export type ProjectThemeName = typeof DESIGN_SYSTEM_PROJECTS[number];
-export type ModeThemeName = DefaultColorScheme;
+export type ModeThemeName = PaletteMode;
 
 export type ModeThemes = {
   [mode in ModeThemeName]: Theme;
